@@ -18,23 +18,46 @@
 <body>
 
 
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <!-- Position it: -->
+        <!-- - `.toast-container` for spacing between toasts -->
+        <!-- - `top-0` & `end-0` to position the toasts in the upper right corner -->
+        <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
+        <div class="toast-container top-0 end-0 p-2">
 
-<section class="vh-100" style="background-color: black;">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col col-xl-10">
-                <div class="card" style="border-radius: 1rem;">
-                    <div class="row g-0">
-                        @RenderBody()
+            <!-- Then put toasts within -->
+            <div class="toast" role="alert" id="liveToast" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    @*<img src="..." class="rounded me-2" alt="...">*@
+                    <strong class="me-auto">Mensaje</strong>
+                    <small class="text-body-secondary">Justo ahora</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="mensajeAlerta"></div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <section class="vh-100" style="background-color: whitesmoke;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-xl-10">
+                    <div class="card" style="border-radius: 1rem;">
+                        <div class="row g-0">
+                            @RenderBody()
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
-    
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/complementos")

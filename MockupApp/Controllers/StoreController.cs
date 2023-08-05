@@ -37,5 +37,14 @@ namespace MockupApp.Controllers
         {
             return View();
         }
+
+
+
+        public ActionResult Salir()
+        {
+            Session["usuario"] = null;
+            return RedirectToAction("", "Store");
+        }
     }
+
 }

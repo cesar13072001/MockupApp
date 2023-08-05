@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Mockups";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<h2>Mockups</h2>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar mockup</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="row">
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Titulo</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Descripcion</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Archivo PSD</label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Foto</label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+               
+                <button type="button" class="btn btn-dark">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>

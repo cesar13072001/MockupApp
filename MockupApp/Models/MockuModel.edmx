@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="mockupModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Contenido">
+          <Key>
+            <PropertyRef Name="idContenido" />
+          </Key>
+          <Property Name="idContenido" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="urlContenido" Type="varchar" MaxLength="500" />
+          <Property Name="tipo" Type="bit" />
+          <Property Name="idProducto" Type="int" />
+        </EntityType>
+        <EntityType Name="Cupon">
+          <Key>
+            <PropertyRef Name="idCupon" />
+          </Key>
+          <Property Name="idCupon" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="valorDescuento" Type="int" Nullable="false" />
+          <Property Name="cantidad" Type="int" Nullable="false" />
+          <Property Name="estadoCupon" Type="bit" Nullable="false" />
+          <Property Name="idProducto" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="idProducto" />
+          </Key>
+          <Property Name="idProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="titulo" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="precio" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="estado" Type="bit" />
+          <Property Name="descuento" Type="int" />
+          <Property Name="precioDescuento" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="idRol" />
+          </Key>
+          <Property Name="idRol" Type="int" Nullable="false" />
+          <Property Name="nombreRol" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombres" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="apellidos" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="contrasenia" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="idRol" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Contenido__idPro__2B3F6F97">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
+          <End Role="Contenido" Type="Self.Contenido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="idProducto" />
+            </Principal>
+            <Dependent Role="Contenido">
+              <PropertyRef Name="idProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cupon__idProduct__2E1BDC42">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="Cupon" Type="Self.Cupon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="idProducto" />
+            </Principal>
+            <Dependent Role="Cupon">
+              <PropertyRef Name="idProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__idRol__267ABA7A">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="idRol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_LoginUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="contrasenia" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="mockupModelStoreContainer">
+          <EntitySet Name="Contenido" EntityType="Self.Contenido" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cupon" EntityType="Self.Cupon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Contenido__idPro__2B3F6F97" Association="Self.FK__Contenido__idPro__2B3F6F97">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Contenido" EntitySet="Contenido" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cupon__idProduct__2E1BDC42" Association="Self.FK__Cupon__idProduct__2E1BDC42">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Cupon" EntitySet="Cupon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__idRol__267ABA7A" Association="Self.FK__Usuario__idRol__267ABA7A">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mockupModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Contenido">
+          <Key>
+            <PropertyRef Name="idContenido" />
+          </Key>
+          <Property Name="idContenido" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="urlContenido" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="tipo" Type="Boolean" />
+          <Property Name="idProducto" Type="Int32" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK__Contenido__idPro__2B3F6F97" FromRole="Contenido" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="Cupon">
+          <Key>
+            <PropertyRef Name="idCupon" />
+          </Key>
+          <Property Name="idCupon" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="valorDescuento" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Int32" Nullable="false" />
+          <Property Name="estadoCupon" Type="Boolean" Nullable="false" />
+          <Property Name="idProducto" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK__Cupon__idProduct__2E1BDC42" FromRole="Cupon" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="idProducto" />
+          </Key>
+          <Property Name="idProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="titulo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="precio" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="estado" Type="Boolean" />
+          <Property Name="descuento" Type="Int32" />
+          <Property Name="precioDescuento" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Contenido" Relationship="Self.FK__Contenido__idPro__2B3F6F97" FromRole="Producto" ToRole="Contenido" />
+          <NavigationProperty Name="Cupon" Relationship="Self.FK__Cupon__idProduct__2E1BDC42" FromRole="Producto" ToRole="Cupon" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="idRol" />
+          </Key>
+          <Property Name="idRol" Type="Int32" Nullable="false" />
+          <Property Name="nombreRol" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Usuario__idRol__267ABA7A" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombres" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellidos" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="correo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contrasenia" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idRol" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK__Usuario__idRol__267ABA7A" FromRole="Usuario" ToRole="Rol" />
+        </EntityType>
+        <Association Name="FK__Contenido__idPro__2B3F6F97">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
+          <End Role="Contenido" Type="Self.Contenido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="idProducto" />
+            </Principal>
+            <Dependent Role="Contenido">
+              <PropertyRef Name="idProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cupon__idProduct__2E1BDC42">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="Cupon" Type="Self.Cupon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="idProducto" />
+            </Principal>
+            <Dependent Role="Cupon">
+              <PropertyRef Name="idProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__idRol__267ABA7A">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="idRol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="mockupEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contenido" EntityType="Self.Contenido" />
+          <EntitySet Name="Cupon" EntityType="Self.Cupon" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK__Contenido__idPro__2B3F6F97" Association="Self.FK__Contenido__idPro__2B3F6F97">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Contenido" EntitySet="Contenido" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cupon__idProduct__2E1BDC42" Association="Self.FK__Cupon__idProduct__2E1BDC42">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Cupon" EntitySet="Cupon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__idRol__267ABA7A" Association="Self.FK__Usuario__idRol__267ABA7A">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <FunctionImport Name="sp_LoginUsuario" ReturnType="Collection(mockupModel.sp_LoginUsuario_Result)">
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="contrasenia" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_LoginUsuario_Result">
+          <Property Type="Int32" Name="idUsuario" Nullable="false" />
+          <Property Type="String" Name="nombres" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="apellidos" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="correo" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="idRol" Nullable="false" />
+          <Property Type="String" Name="nombreRol" Nullable="false" MaxLength="100" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mockupModelStoreContainer" CdmEntityContainer="mockupEntities">
+          <EntitySetMapping Name="Contenido">
+            <EntityTypeMapping TypeName="mockupModel.Contenido">
+              <MappingFragment StoreEntitySet="Contenido">
+                <ScalarProperty Name="idContenido" ColumnName="idContenido" />
+                <ScalarProperty Name="urlContenido" ColumnName="urlContenido" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cupon">
+            <EntityTypeMapping TypeName="mockupModel.Cupon">
+              <MappingFragment StoreEntitySet="Cupon">
+                <ScalarProperty Name="idCupon" ColumnName="idCupon" />
+                <ScalarProperty Name="valorDescuento" ColumnName="valorDescuento" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="estadoCupon" ColumnName="estadoCupon" />
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producto">
+            <EntityTypeMapping TypeName="mockupModel.Producto">
+              <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="descuento" ColumnName="descuento" />
+                <ScalarProperty Name="precioDescuento" ColumnName="precioDescuento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="mockupModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+                <ScalarProperty Name="nombreRol" ColumnName="nombreRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="mockupModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="contrasenia" ColumnName="contrasenia" />
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_LoginUsuario" FunctionName="mockupModel.Store.sp_LoginUsuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="mockupModel.sp_LoginUsuario_Result">
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+                <ScalarProperty Name="nombreRol" ColumnName="nombreRol" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

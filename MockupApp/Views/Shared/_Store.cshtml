@@ -1,6 +1,18 @@
 ﻿@{
     Layout = null;
+    var texto = "";
+    var sesion = (MockupApp.Models.sp_LoginUsuario_Result)Session["usuario"];
+    if (sesion != null)
+    {
+        texto = sesion.nombres + " "+sesion.apellidos;
+
+    }
+
+
+
 }
+@model IEnumerable<MockupApp.Models.sp_LoginUsuario_Result>
+
 
 <!DOCTYPE html>
 
@@ -43,10 +55,16 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Correo del usuario</a></li>
-                            <li><a class="dropdown-item" href="#!">Mi Dashboard</a></li>
-                            <li><hr class="dropdown-divider"/></li>
-                            <li><a class="dropdown-item" href="#!">Cerrar sesión</a></li>
+                            @if(sesion == null) {  <li><a class="dropdown-item" href="@Url.Action("","login")">Iniciar sesión</a></li> }
+                           
+                            
+                            @{if(sesion != null) { 
+                                <li> <h6 class="dropdown-item" href="#" id="txtCorreo">@texto</h6></li>
+                            <li><a class="dropdown-item" href="@Url.Action("","dashboard")">Mi Dashboard</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" href="@Url.Action("Salir","Store")">Cerrar sesión</a></li>
+                            }
+                            }
                         </ul>
                     </li>
                 </ul>
@@ -153,24 +171,24 @@
 
 
             <!--<div class="col mb-2 shadow bg-body-tertiary rounded">
-    <div class="card h-100">-->
+            <div class="card h-100">-->
             <!-- Product image-->
             <!--<img class="card-img-top" height="200" src="https://global-uploads.webflow.com/642d682a6e4ca0d303c81fdf/644901e51572f7056da5903e_box.webp" alt="..." />-->
             <!-- Product details-->
             <!--<div class="card-body p-2">
-    <div class="text-center">-->
+            <div class="text-center">-->
             <!-- Product name-->
             <!--<h5 class="fw-bolder">Eliminar</h5>-->
             <!-- Product price-->
             <!--$40.00 - $80.00
-        </div>
-    </div>-->
+                </div>
+            </div>-->
             <!-- Product actions-->
             <!--<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Eliminar</a></div>
-            </div>
-        </div>
-    </div>-->
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Eliminar</a></div>
+                    </div>
+                </div>
+            </div>-->
 
 
 
@@ -208,20 +226,20 @@
 
 
 
-
-        </div>
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/complementos")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-        <script>
-            function modalCarrito() {
-                //alert("hola");
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/complementos")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script>
 
 
-            }
 
-        </script>
+
+
+
+
+    </script>
 
 </body>
 </html>

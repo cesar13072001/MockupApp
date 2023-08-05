@@ -11,6 +11,12 @@ namespace MockupApp.Controllers
         // GET: Dashboard
         public ActionResult Index()
         {
+            if (Session["usuario"] == null) return RedirectToAction("", "");
+            return View();
+        }
+
+        public ActionResult Mockups()
+        {
             return View();
         }
     }

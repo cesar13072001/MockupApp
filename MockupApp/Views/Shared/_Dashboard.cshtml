@@ -1,6 +1,13 @@
 ﻿
 @{
     Layout = null;
+    var texto = "";
+    var sesion = (MockupApp.Models.sp_LoginUsuario_Result)Session["usuario"];
+    if (sesion != null)
+    {
+        texto = sesion.nombres + " " + sesion.apellidos;
+
+    }
 }
 
 <!DOCTYPE html>
@@ -13,13 +20,14 @@
     <title>@ViewBag.Title Dashboard</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 
 <body>
 
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">Mi tienda</a>
+        <a class="navbar-brand ps-3" href="@Url.Action("","dashboard")">Mi tienda</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
 
@@ -27,9 +35,19 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Correo del usuario</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#!">Cerrar sesión</a></li>
+                    @if (sesion == null)
+                    {
+                        <li><a class="dropdown-item" href="@Url.Action("","login")">Iniciar sesión</a></li>
+}
+
+                    @{if (sesion != null)
+                        {
+                            <li> <h6 class="dropdown-item" href="#" id="txtCorreo">@texto</h6></li>
+                            <li><a class="dropdown-item" href="@Url.Action("","")">Ir a la tienda</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" href="@Url.Action("Salir","Store")">Cerrar sesión</a></li>
+                        }
+                    }
                 </ul>
             </li>
         </ul>
@@ -40,27 +58,29 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Resumen</div>
-                        <a class="nav-link" href="@Url.Action("Index","Home")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
+                        
+                        <a class="nav-link" href="@Url.Action("Usuarios","Home")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            Usuarios
                         </a>
                         <a class="nav-link" href="@Url.Action("Usuarios","Home")">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Usuario
+                            Ventas
+                        </a>
+                        <a class="nav-link" href="@Url.Action("Usuarios","Home")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            Mis mockups
                         </a>
 
                         <div class="sb-sidenav-menu-heading">Mantenimiento</div>
-                        <a class="nav-link" href="@Url.Action("Categoria","Mantenedor")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Categorias
-                        </a>
-                        <a class="nav-link" href="@Url.Action("Marca","Mantenedor")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bookmark"></i></div>
-                            Marcas
+                        
+                        <a class="nav-link" href="@Url.Action("mockups","dashboard")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
+                            Mockups
                         </a>
                         <a class="nav-link" href="@Url.Action("Producto","Mantenedor")">
                             <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
-                            Productos
+                            Cupones
                         </a>
                     </div>
                 </div>
