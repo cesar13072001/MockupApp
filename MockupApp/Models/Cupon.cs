@@ -11,7 +11,8 @@ namespace MockupApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Web.Script.Serialization;
+
     public partial class Cupon
     {
         public string idCupon { get; set; }
@@ -19,7 +20,8 @@ namespace MockupApp.Models
         public int cantidad { get; set; }
         public bool estadoCupon { get; set; }
         public int idProducto { get; set; }
-    
+
+        [ScriptIgnore]
         public virtual Producto Producto { get; set; }
     }
 }

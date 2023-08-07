@@ -10,17 +10,15 @@
 namespace MockupApp.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class sp_ListarProductos_Result
     {
-        public int idUsuario { get; set; }
-        public string nombres { get; set; }
-        public string apellidos { get; set; }
-        public string correo { get; set; }
-        public string contrasenia { get; set; }
-        public int idRol { get; set; }
-    
-        public virtual Rol Rol { get; set; }
+        public int idProducto { get; set; }
+        public string titulo { get; set; }
+        public string descripcion { get; set; }
+        public decimal precio { get; set; }
+        public Nullable<bool> estado { get; set; }
+        public Nullable<int> descuento { get; set; }
+        public Nullable<decimal> precioDescuento { get; set; }
     }
 }

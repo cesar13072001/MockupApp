@@ -31,10 +31,10 @@
           <Property Name="idProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="titulo" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="500" Nullable="false" />
-          <Property Name="precio" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="precio" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="estado" Type="bit" />
           <Property Name="descuento" Type="int" />
-          <Property Name="precioDescuento" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="precioDescuento" Type="decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -90,6 +90,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_ListarProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_LoginUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="correo" Type="varchar" Mode="In" />
           <Parameter Name="contrasenia" Type="varchar" Mode="In" />
@@ -145,10 +146,10 @@
           <Property Name="idProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="titulo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="precio" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="precio" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="estado" Type="Boolean" />
           <Property Name="descuento" Type="Int32" />
-          <Property Name="precioDescuento" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="precioDescuento" Type="Decimal" Precision="10" Scale="2" />
           <NavigationProperty Name="Contenido" Relationship="Self.FK__Contenido__idPro__2B3F6F97" FromRole="Producto" ToRole="Contenido" />
           <NavigationProperty Name="Cupon" Relationship="Self.FK__Cupon__idProduct__2E1BDC42" FromRole="Producto" ToRole="Cupon" />
         </EntityType>
@@ -230,6 +231,7 @@
             <Parameter Name="correo" Mode="In" Type="String" />
             <Parameter Name="contrasenia" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_ListarProductos" ReturnType="Collection(mockupModel.sp_ListarProductos_Result)" />
         </EntityContainer>
         <ComplexType Name="sp_LoginUsuario_Result">
           <Property Type="Int32" Name="idUsuario" Nullable="false" />
@@ -238,6 +240,15 @@
           <Property Type="String" Name="correo" Nullable="false" MaxLength="200" />
           <Property Type="Int32" Name="idRol" Nullable="false" />
           <Property Type="String" Name="nombreRol" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="sp_ListarProductos_Result">
+          <Property Type="Int32" Name="idProducto" Nullable="false" />
+          <Property Type="String" Name="titulo" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="descripcion" Nullable="false" MaxLength="500" />
+          <Property Type="Decimal" Name="precio" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Boolean" Name="estado" Nullable="true" />
+          <Property Type="Int32" Name="descuento" Nullable="true" />
+          <Property Type="Decimal" Name="precioDescuento" Nullable="true" Precision="10" Scale="2" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -308,6 +319,19 @@
                 <ScalarProperty Name="correo" ColumnName="correo" />
                 <ScalarProperty Name="idRol" ColumnName="idRol" />
                 <ScalarProperty Name="nombreRol" ColumnName="nombreRol" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ListarProductos" FunctionName="mockupModel.Store.sp_ListarProductos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="mockupModel.sp_ListarProductos_Result">
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="descuento" ColumnName="descuento" />
+                <ScalarProperty Name="precioDescuento" ColumnName="precioDescuento" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
