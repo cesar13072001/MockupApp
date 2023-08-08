@@ -26,68 +26,68 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form method="post" enctype="multipart/form-data" action="javascript:agregarMockup()">
+            <form method="post" id="formularioMockup" enctype="multipart/form-data" action="javascript:formularioMockup()">
 
                 <div class="modal-body">
 
                     <div class="row">
 
+                        <input id="txtIdProducto" type="hidden" value="0"/>
+
                         <div class="mb-3">
                             <label for="txtTitulo" class="form-label">Titulo</label>
-                            <input type="text" class="form-control" id="txtTitulo">
+                            <input type="text" class="form-control" id="txtTitulo" required>
                         </div>
+
                         <div class="mb-3">
                             <label for="txtDescripcion" class="form-label">Descripcion</label>
-                            <textarea class="form-control" id="txtDescripcion" rows="2"></textarea>
+                            <textarea class="form-control" id="txtDescripcion" rows="2" required></textarea>
                         </div>
 
                         <div class="mb-3 col-6">
                             <label for="txtPrecio" class="form-label">Precio</label>
-                            <input type="number" class="form-control" id="txtPrecio">
+                            <input type="number" class="form-control" id="txtPrecio" required>
                         </div>
 
                         <div class="mb-3 col-6">
                             <label for="txtDescuento" class="form-label">Descuento</label>
-                            <input type="number" class="form-control" id="txtDescuento">
+                            <input type="number" class="form-control" id="txtDescuento" required>
                         </div>
 
-                       <div id="divEstado"></div>
+                        <div id="divEstado"></div>
 
 
                         <div class="mb-4 mt-2 col-10">
                             <label for="formPSD" class="form-label">Archivo PSD</label>
-                            <input class="form-control" type="file" id="formPSD">
+                            <input class="form-control" type="file" id="formPSD" required>
                         </div>
 
-                        <div class="col-2 mb-1 text-start pt-4">
 
+                        <div class="col-2 mb-1 text-start pt-4">
                             <div class="">
                                 <a href="#" title="Archivo .psd" id="urlPSD"><i class="fa fa-file-powerpoint fa-3x" style="color:black;"></i></a>
                             </div>
-
                         </div>
 
 
                         <div class="mb-2">
                             <label for="formFoto" class="form-label">Foto</label>
-                            <input class="form-control" type="file" id="formFoto">
+                            <input class="form-control" type="file" id="formFoto" required>
                         </div>
 
 
                         <div class="mb-1">
                             <div class="rounded-2 text-center" style="height: auto;">
-
-                                <a href="#" title="foto">
-                                    
-                                      <img class="h-50 w-50" id="imgFoto" src="https://res.cloudinary.com/dl1mbt9jb/image/upload/v1691258557/recursos/image.png" />
-                                    
-                                        </a>
+                                <a href="#" title="foto">   
+                                 <img class="h-50 w-50" id="imgFoto" src="https://res.cloudinary.com/dl1mbt9jb/image/upload/v1691258557/recursos/image.png" />
+                                </a>
                             </div>
                         </div>
 
                     </div>
                 </div>
                 <div class="modal-footer">
+
                     <div class="row mt-3" id="guardando" hidden>
                         <div class="spinner-border text-dark col-3" role="status">
                             <span class="visually-hidden"></span>
@@ -95,7 +95,7 @@
                         <div class="col-9 mt-1"><p>Guardando</p></div>
                     </div>
 
-                    <button type="submit" class="btn btn-dark">Agregar</button>
+                    <button id="btnFormulario" type="submit" class="btn btn-dark">Agregar</button>
 
                 </div>
 
@@ -116,23 +116,35 @@
             <th>Estado</th>
             <th>Acción</th>
             <th></th>
-            <th></th>
-            
+            <th></th>    
         </tr>
     </thead>
-
 </table>
 
 
 @section scripts{
     <script>
-
         var tabledata;
-
         var producto;
+        var fila;
+
         llenarTabla();
 
+        function limpiar() {
+           $("#exampleModalLabel").html("Agregar Mockup");
+           $("#formularioMockup")[0].reset();
+           $("#btnFormulario").attr("type", "submit");
+           $("#btnFormulario").html("Agregar");
+           estadoFormulario(false);
+           $("#divEstado").html("");
+           $("#urlPSD").attr("href", "#");
+            $("#imgFoto").attr("src", "https://res.cloudinary.com/dl1mbt9jb/image/upload/v1691258557/recursos/image.png");
+            $("#txtIdProducto").attr("value", 0);
+            $('#formFoto').prop("required", true);
+            $('#formPSD').prop("required", true);
 
+
+        }
 
 
 
@@ -140,7 +152,6 @@
 
 
         function llenarTabla() {
-
             tabledata = new DataTable('#tabla', {
                 scrollX: true,
                 scrollY: true,
@@ -163,18 +174,8 @@
                     {
                         "data": "estado", "render":
                             function (valor) {
-                                if (valor == true) {
-                                    return valor
-                                    //`<div class="form-check form-switch">
-                                    //<input title="Activo" class="form-check-input" type="checkbox" role="switch" id="switchActivo" checked>
-                                    //</div>`
-                                }
-                                if (valor == false) {
-                                    return valor
-                                    //`<div class="form-check form-switch">
-                                    //<input title="Inactivo" class="form-check-input" type="checkbox" role="switch" id="switchActivo">
-                                    //</div>`
-                                }
+                                if (valor) { return '<div class="form-check form-switch"><input title="Activo" class="form-check-input" type="checkbox" role="switch" id="switchActivo" checked></div>'; }
+                                else { return '<div class="form-check form-switch"> <input title="Inactivo" class="form-check-input" type="checkbox" role="switch" id="switchActivo"></div>'; }
                             }
                     },
                     {
@@ -200,10 +201,19 @@
 
         }
 
+        /*function mostrarEstado() {
+            $("#guardando").removeAttr('hidden');
+        }*/
+
+        function formularioMockup() {
+            let id = $("#txtIdProducto").val();
+            (id == 0) ? agregarMockup() : editarMockup();
+        }
 
 
 
         function agregarMockup() {
+
             var formData = new FormData();
             formData.append("titulo", $("#txtTitulo").val());
             formData.append("descripcion", $("#txtDescripcion").val());
@@ -211,36 +221,50 @@
             formData.append("descuento", $("#txtDescuento").val());
             formData.append("psd", $("#formPSD")[0].files[0]);
             formData.append("foto", $("#formFoto")[0].files[0]);
-            $("#guardando").removeAttr('hidden');
+
             jQuery.ajax({
-                //Establecemos el url como el JSONResult de nuestro controlador
                 url: '@Url.Action("guardarMockup", "Dashboard")',
-                //Indicamos que tipo de peticion es
                 type: "POST",
                 data: formData,
-                //Indicamos el tipo de dato a traer
                 dataType: "json",
-                //Indicamos el tipo de contenido asi como el charset
                 contentType: "application/json; charset=utf-8",
-                //acciones a tomar cuando la data es traida de manera correcta
                 processData: false,
                 contentType: false,
                 async: false,
                 success: function (data) {
+                    tabledata.row.add(data).draw(false);
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                beforeSend: function () {
+                }
+            });
+        }
 
-                    /*document.getElementById("mensajeAlerta").innerHTML = "Cuenta creada correctamente";
-                    $("#liveToast").show();
 
-                    setTimeout(() => {
-                        $("#liveToast").hide();
-
-                        location.href = "/login";
-                        $("#txtNombres").val("");
-                        $("#txtApellidos").val("");
-                        $("#txtCorreo").val("");
-                        $("#txtContrasenia").val("");
-                    }, 3000);*/
-
+         function editarMockup() {
+            var formData = new FormData();
+            formData.append("idProducto", $("#txtIdProducto").val());
+            formData.append("titulo", $("#txtTitulo").val());
+            formData.append("descripcion", $("#txtDescripcion").val());
+            formData.append("precio", $("#txtPrecio").val());
+            formData.append("descuento", $("#txtDescuento").val());
+            formData.append("estado", $("#cboEstado").val() == 1 ? true : false);
+            formData.append("psd", $("#formPSD")[0].files[0]);
+            formData.append("foto", $("#formFoto")[0].files[0]);
+            $("#guardando").removeAttr('hidden');
+            jQuery.ajax({
+                url: '@Url.Action("editarMockup", "Dashboard")',
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                processData: false,
+                contentType: false,
+                async: false,
+                success: function (data) {
+                    tabledata.row(fila).data(data).draw(false);
                     console.log(data);
 
                 },
@@ -253,26 +277,31 @@
             });
         }
 
-        function bloquearInputs() {
-            $('#inputId').attr('readonly', true);
-            $("#txtTitulo").attr('readonly', true);
-            $("#txtDescripcion").attr('readonly', true);
-            $("#txtPrecio").attr('readonly', true);
-            $("#txtDescuento").attr('readonly', true);
-            $("#cboEstado").attr('disabled', true);
-            $("#formFoto").attr('disabled', true);
-            $("#formPSD").attr('disabled', true);
-            
 
+
+
+
+
+        function estadoFormulario(estado) {
+            $('#inputId').attr('readonly', estado);
+            $("#txtTitulo").attr('readonly', estado);
+            $("#txtDescripcion").attr('readonly', estado);
+            $("#txtPrecio").attr('readonly', estado);
+            $("#txtDescuento").attr('readonly', estado);
+            $("#cboEstado").attr('disabled', estado);
+            $("#formFoto").attr('disabled', estado);
+            $("#formPSD").attr('disabled', estado);
         }
 
 
-        $("#tabla tbody").on("click", ".btn-ver", function () {
-            var filaSeleccionada = $(this).closest("tr");
-            let idProducto = tabledata.row(filaSeleccionada).data()["idProducto"];
 
+
+        function rellenarCamposFormulario(idProducto, estado) {
+            $('#formFoto').removeAttr("required");
+            $('#formPSD').removeAttr("required");
+
+            $("#exampleModalLabel").html("Mockup - " + idProducto);
             buscarProducto(idProducto);
-
             var opcion =
                 (producto[0].estado) ?
                     `<option selected value="1">Activo</option>
@@ -281,75 +310,111 @@
                     `<option value="1">Activo</option>
                  <option selected value="0">Inactivo</option>` ;
 
-
-
             $("#txtTitulo").val(producto[0].titulo);
             $("#txtDescripcion").val(producto[0].descripcion);
             $("#txtPrecio").val(producto[0].precio);
             $("#txtDescuento").val(producto[0].descuento);
-            $("#urlPSD").attr("href", producto[0]["Contenido"][1]["urlContenido"]);
-
-
-
-            $("#imgFoto").attr("src", producto[0]["Contenido"][0]["urlContenido"]);
-
+            $("#urlPSD").attr("href", producto[0]["Contenido"][0]["urlContenido"]);
+            $("#imgFoto").attr("src", producto[0]["Contenido"][1]["urlContenido"]);
             $("#divEstado").html(`
                 <label for="cboEstado" class="form-label">Estado</label>
                         <select class="form-select" id="cboEstado" required>
                             <option disabled value="">Seleccione</option>`+ opcion + `</select>`);
 
-            bloquearInputs();
+            estadoFormulario(estado);
             $("#exampleModal").modal("show");
+        }
 
+        $("#exampleModal").on("hidden.bs.modal", function () {
+            limpiar();
         });
 
 
+
+        function buscarProducto(id) {
+              jQuery.ajax({
+                url: '@Url.Action("buscarMockup", "Dashboard")',
+                type: "POST",
+                data: JSON.stringify({id : id}),
+                  dataType: "json",
+                  async: false,
+
+                contentType: "application/json; charset=utf-8",
+                  success: function (data) {
+                      producto= data;
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                beforeSend: function () {
+                }
+            });
+        }
+
+
+        function eliminarMockup(id) {
+            jQuery.ajax({
+                url: '@Url.Action("eliminarMockup", "Dashboard")',
+                type: "POST",
+                data: JSON.stringify({ id: id}),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                beforeSend: function () {
+
+                }
+            });
+        }
+
+
+        function cambiarEstadoMockup(id, estado) {
+            jQuery.ajax({
+                url: '@Url.Action("actualizarEstadoMockup", "Dashboard")',
+                type: "POST",
+                data: JSON.stringify({ id: id, estado: estado }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                beforeSend: function () {
+
+                }
+            });
+        }
+
+
+        $("#tabla tbody").on("click", ".btn-ver", function () {
+            var filaSeleccionada = $(this).closest("tr");
+            let idProducto = tabledata.row(filaSeleccionada).data()["idProducto"];
+            $("#btnFormulario").attr("type", "button");
+            $("#btnFormulario").html("Aceptar");
+            rellenarCamposFormulario(idProducto,true);
+        });
 
 
         $("#tabla tbody").on("click", ".btn-editar", function () {
             var filaSeleccionada = $(this).closest("tr");
             let idProducto = tabledata.row(filaSeleccionada).data()["idProducto"];
-            
-            buscarProducto(idProducto);
-            
-            var opcion = 
-                (producto[0].estado) ? 
-                `<option selected value="1">Activo</option>
-                 <option value="0">Inactivo</option>` 
-                :
-                `<option value="1">Activo</option>
-                 <option selected value="0">Inactivo</option>` ;
-
-            
-
-            $("#txtTitulo").val(producto[0].titulo);
-            $("#txtDescripcion").val(producto[0].descripcion);
-            $("#txtPrecio").val(producto[0].precio);
-            $("#txtDescuento").val(producto[0].descuento);
-            $("#urlPSD").attr("href", producto[0]["Contenido"][1]["urlContenido"]);
-
-           
-            
-            $("#imgFoto").attr("src", producto[0]["Contenido"][0]["urlContenido"]);
-
-            $("#divEstado").html(`
-                <label for="cboEstado" class="form-label">Estado</label>
-                        <select class="form-select" id="cboEstado" required>
-                            <option disabled value="">Seleccione</option>`+ opcion+`</select>`);
-
-            $("#exampleModal").modal("show");
+            fila = filaSeleccionada;
+            $("#btnFormulario").attr("type", "submit");
+            $("#btnFormulario").html("Editar");
+            $("#txtIdProducto").attr("value", idProducto);
+            rellenarCamposFormulario(idProducto, false);
         });
-
-
-
-
-       
 
 
         $("#tabla tbody").on("click", ".btn-eliminar", function () {
             var filaSeleccionada = $(this).closest("tr");
             let idProducto = tabledata.row(filaSeleccionada).data()["idProducto"];
-
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success m-1',
@@ -373,17 +438,12 @@
                 if (result.isConfirmed) {
                     eliminarMockup(idProducto);
                     tabledata.row(filaSeleccionada).remove().draw(false);
-                    /*tabledata.destroy();
-                    llenarTabla();*/
-                    
                     swalWithBootstrapButtons.fire(
                         'Eliminado',
                         'El mockup fue eliminado',
                         'success',
-
                     )
                 } else if (
-                    /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
                     swalWithBootstrapButtons.fire(
@@ -396,87 +456,14 @@
         });
 
 
-         function buscarProducto(id) {
-              jQuery.ajax({
-                url: '@Url.Action("buscarMockup", "Dashboard")',
-                type: "POST",
-                data: JSON.stringify({id : id}),
-                  dataType: "json",
-                  async: false,
-                 
-                contentType: "application/json; charset=utf-8",
-                  success: function (data) {
-                      producto= data;
-
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-                beforeSend: function () {
-                }
-            });
-        }
-
-      
-
-
-
-
-        function eliminarMockup(id) {
-            jQuery.ajax({
-                url: '@Url.Action("eliminarMockup", "Dashboard")',
-                type: "POST",
-                data: JSON.stringify({ id: id}),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-                beforeSend: function () {
-
-                }
-            });
-        }
-
 
 
         $("#tabla tbody").on("change", "#switchActivo", function () {
             var filaSeleccionada = $(this).closest("tr");
             let idProducto = tabledata.row(filaSeleccionada).data()["idProducto"];
             var checked = this.checked;
-            if (checked) {
-                cambiarEstadoMockup(idProducto, true);
-                alert(`Activo ${idProducto}`);
-            }
-            else {
-                cambiarEstadoMockup(idProducto, false);
-                alert(`Inactivo ${idProducto}`);
-            }
+            (checked) ? cambiarEstadoMockup(idProducto, true) : cambiarEstadoMockup(idProducto, false);
         });
-
-
-        function cambiarEstadoMockup(id, estado) {
-            jQuery.ajax({
-                url: '@Url.Action("actualizarEstadoMockup", "Dashboard")',
-                type: "POST",
-                data: JSON.stringify({ id: id, estado: estado }),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-                beforeSend: function () {
-
-                }
-            });
-        }
-
 
 
         $("#formFoto").on("change", function () {
@@ -486,10 +473,34 @@
             fileReader.readAsDataURL(imagen);
             fileReader.onload = function () {
 
-                console.log(fileReader.result);
                 $("#imgFoto").attr("src", fileReader.result);
             };
         });
+
+
+
+
+
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+
 
 
     </script>

@@ -75,7 +75,6 @@ namespace MockupApp.Controllers
             List<Contenido> contenidos = new List<Contenido>();
             Producto producto = new Producto();  
             
-            List<Producto> products = new List<Producto>();
             try
             {
                 producto.titulo = titulo;
@@ -84,7 +83,6 @@ namespace MockupApp.Controllers
                 producto.estado = true;
                 producto.descuento = Int32.Parse(descuento);
                 producto.precioDescuento = producto.precio * producto.descuento / 100;
-
                 foreach (var file in files)
                 {
                     resultados[Array.IndexOf(files, file)] = new CloudinaryDAO().guardarContenido(file);
@@ -95,18 +93,67 @@ namespace MockupApp.Controllers
                     });
                 }
                 producto = new MockupDAO().guardarMockup(contenidos, producto);
-                Console.WriteLine(producto);
-                products.Add(producto);
-                products.Add(producto);
-                //salida = producto.ToString();
-
             } 
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-
-            return Json(new {products},JsonRequestBehavior.AllowGet);
+            return Json(producto,JsonRequestBehavior.AllowGet);
         }
+
+
+
+        [HttpPost]
+        public JsonResult editarMockup(string idProducto, string titulo, string descripcion, string precio, string descuento,
+            bool estado, HttpPostedFileBase psd = null, HttpPostedFileBase foto = null)
+        {
+            HttpPostedFileBase[] files = { psd, foto };
+            string[][] resultados = new string[2][];
+
+            List<Contenido> contenidos = new List<Contenido>();
+            Producto producto = new Producto();
+
+            try
+            {
+                producto.idProducto = Int32.Parse(idProducto);
+                producto.titulo = titulo;
+                producto.descripcion = descripcion;
+                producto.precio = Decimal.Parse(precio);
+                producto.estado = true;
+                producto.descuento = Int32.Parse(descuento);
+                producto.estado = estado;
+                producto.precioDescuento = producto.precio * producto.descuento / 100;
+                foreach (var file in files)
+                {
+                    if (file != null)
+                    {
+                        resultados[Array.IndexOf(files, file)] = new CloudinaryDAO().guardarContenido(file);
+                        contenidos.Add(new Contenido
+                        {
+                            idContenido = resultados[Array.IndexOf(files, file)][0],
+                            urlContenido = resultados[Array.IndexOf(files, file)][1],
+                            tipo = Array.IndexOf(files, file) == 0 ? false : true,
+                        });
+                    }
+                    else
+                    {
+                        contenidos.Add(null);
+                    }
+                }
+                producto = new MockupDAO().editarProducto(producto, contenidos);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return Json(producto, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
+
+
     }
 }

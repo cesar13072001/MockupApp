@@ -24,32 +24,67 @@ namespace MockupApp.DAO
                                           urlContenido = contenido.urlContenido,
                                           tipo = contenido.tipo,
                                       }).ToList();
-
                 db.Producto.Add(producto);
-
                 db.SaveChanges();
+             
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                producto = null;
                 
             }
-
-            catch (DbEntityValidationException e)
-            {
-                producto = null;
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-                throw;
-            }
-
-
             return producto;
         }
+
+
+        public Producto editarProducto(Producto producto, List<Contenido> contenidos = null)
+        {
+            try
+            {
+                var product = db.Producto.Find(producto.idProducto);
+
+                if (producto.titulo != product.titulo) product.titulo = producto.titulo;
+                if (producto.descripcion != product.descripcion) product.descripcion = producto.descripcion;
+                if (producto.precio != product.precio) product.precio = producto.precio;
+                if (producto.descuento != product.descuento) product.descuento = producto.descuento;
+                if (producto.precioDescuento != product.precioDescuento) product.precioDescuento = producto.precioDescuento;
+                if (producto.estado != product.estado) product.estado = producto.estado;
+
+                if (contenidos.Count != 0)
+                {
+                    if (contenidos[0] != null)
+                    {
+                        var foto = db.Contenido.Where(c => c.idProducto == producto.idProducto && c.tipo == true).First();
+                        foto.idContenido = contenidos[0].idContenido;
+                        foto.urlContenido = contenidos[0].urlContenido;
+                    }
+
+                    if (contenidos[1] != null)
+                    {
+                        var psd = db.Contenido.Where(c => c.idProducto == producto.idProducto && c.tipo == false).First();
+                        psd.idContenido = contenidos[1].idContenido;
+                        psd.urlContenido = contenidos[1].urlContenido;
+                    }
+
+                }
+
+                db.SaveChanges();
+
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                producto = null;
+
+            }
+            return producto;
+        }
+
+
+
 
         public List<Producto> listarMockups()
         {
