@@ -47,7 +47,7 @@ namespace MockupApp.Controllers
         public JsonResult buscarMockup(int id) {
             var producto = new MockupDAO().listarMockupPorId(id);
 
-            return Json(new { producto },JsonRequestBehavior.AllowGet);
+            return Json( producto,JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
