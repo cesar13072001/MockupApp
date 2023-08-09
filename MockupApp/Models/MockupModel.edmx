@@ -4,12 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="mockupModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="mockupModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Contenido">
           <Key>
             <PropertyRef Name="idContenido" />
           </Key>
-          <Property Name="idContenido" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="idContenido" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idCloudinary" Type="varchar" MaxLength="500" />
           <Property Name="urlContenido" Type="varchar" MaxLength="500" />
           <Property Name="tipo" Type="bit" />
           <Property Name="idProducto" Type="int" />
@@ -114,7 +115,8 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="mockupModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -122,7 +124,8 @@
           <Key>
             <PropertyRef Name="idContenido" />
           </Key>
-          <Property Name="idContenido" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idContenido" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idCloudinary" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="urlContenido" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="tipo" Type="Boolean" />
           <Property Name="idProducto" Type="Int32" />
@@ -227,20 +230,12 @@
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
+          <FunctionImport Name="sp_ListarProductos" ReturnType="Collection(mockupModel.sp_ListarProductos_Result)" />
           <FunctionImport Name="sp_LoginUsuario" ReturnType="Collection(mockupModel.sp_LoginUsuario_Result)">
             <Parameter Name="correo" Mode="In" Type="String" />
             <Parameter Name="contrasenia" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_ListarProductos" ReturnType="Collection(mockupModel.sp_ListarProductos_Result)" />
         </EntityContainer>
-        <ComplexType Name="sp_LoginUsuario_Result">
-          <Property Type="Int32" Name="idUsuario" Nullable="false" />
-          <Property Type="String" Name="nombres" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="apellidos" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="correo" Nullable="false" MaxLength="200" />
-          <Property Type="Int32" Name="idRol" Nullable="false" />
-          <Property Type="String" Name="nombreRol" Nullable="false" MaxLength="100" />
-        </ComplexType>
         <ComplexType Name="sp_ListarProductos_Result">
           <Property Type="Int32" Name="idProducto" Nullable="false" />
           <Property Type="String" Name="titulo" Nullable="false" MaxLength="250" />
@@ -249,6 +244,14 @@
           <Property Type="Boolean" Name="estado" Nullable="true" />
           <Property Type="Int32" Name="descuento" Nullable="true" />
           <Property Type="Decimal" Name="precioDescuento" Nullable="true" Precision="10" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="sp_LoginUsuario_Result">
+          <Property Type="Int32" Name="idUsuario" Nullable="false" />
+          <Property Type="String" Name="nombres" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="apellidos" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="correo" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="idRol" Nullable="false" />
+          <Property Type="String" Name="nombreRol" Nullable="false" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -260,6 +263,7 @@
             <EntityTypeMapping TypeName="mockupModel.Contenido">
               <MappingFragment StoreEntitySet="Contenido">
                 <ScalarProperty Name="idContenido" ColumnName="idContenido" />
+                <ScalarProperty Name="idCloudinary" ColumnName="idCloudinary" />
                 <ScalarProperty Name="urlContenido" ColumnName="urlContenido" />
                 <ScalarProperty Name="tipo" ColumnName="tipo" />
                 <ScalarProperty Name="idProducto" ColumnName="idProducto" />
@@ -310,18 +314,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_LoginUsuario" FunctionName="mockupModel.Store.sp_LoginUsuario">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="mockupModel.sp_LoginUsuario_Result">
-                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
-                <ScalarProperty Name="nombres" ColumnName="nombres" />
-                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
-                <ScalarProperty Name="correo" ColumnName="correo" />
-                <ScalarProperty Name="idRol" ColumnName="idRol" />
-                <ScalarProperty Name="nombreRol" ColumnName="nombreRol" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_ListarProductos" FunctionName="mockupModel.Store.sp_ListarProductos">
             <ResultMapping>
               <ComplexTypeMapping TypeName="mockupModel.sp_ListarProductos_Result">
@@ -332,6 +324,18 @@
                 <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="descuento" ColumnName="descuento" />
                 <ScalarProperty Name="precioDescuento" ColumnName="precioDescuento" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_LoginUsuario" FunctionName="mockupModel.Store.sp_LoginUsuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="mockupModel.sp_LoginUsuario_Result">
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+                <ScalarProperty Name="nombreRol" ColumnName="nombreRol" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

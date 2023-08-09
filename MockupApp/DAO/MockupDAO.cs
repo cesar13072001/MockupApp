@@ -20,7 +20,7 @@ namespace MockupApp.DAO
                 producto.Contenido = (from contenido in contenidos
                                       select new Contenido
                                       {
-                                          idContenido = contenido.idContenido,
+                                          idCloudinary = contenido.idCloudinary,
                                           urlContenido = contenido.urlContenido,
                                           tipo = contenido.tipo,
                                       }).ToList();
@@ -56,16 +56,16 @@ namespace MockupApp.DAO
                 {
                     if (contenidos[0] != null)
                     {
-                        var foto = db.Contenido.Where(c => c.idProducto == producto.idProducto && c.tipo == true).First();
-                        foto.idContenido = contenidos[0].idContenido;
-                        foto.urlContenido = contenidos[0].urlContenido;
+                        var psd = db.Contenido.Where(c => c.idProducto == producto.idProducto && c.tipo == false).First();
+                        psd.idCloudinary = contenidos[0].idCloudinary;
+                        psd.urlContenido = contenidos[0].urlContenido;
                     }
 
                     if (contenidos[1] != null)
                     {
-                        var psd = db.Contenido.Where(c => c.idProducto == producto.idProducto && c.tipo == false).First();
-                        psd.idContenido = contenidos[1].idContenido;
-                        psd.urlContenido = contenidos[1].urlContenido;
+                        var foto = db.Contenido.Where(c => c.idProducto == producto.idProducto && c.tipo == true).First();
+                        foto.idCloudinary = contenidos[1].idCloudinary;
+                        foto.urlContenido = contenidos[1].urlContenido;
                     }
 
                 }
@@ -92,8 +92,7 @@ namespace MockupApp.DAO
             
             try
             {
-                /*from d in db.usp_listar_medicamentos_db()
-                select d;*/
+              
 
                 var lista = from p in db.Producto select p;
                 foreach(var item in lista)
@@ -106,6 +105,7 @@ namespace MockupApp.DAO
                         contenido.Add(new Contenido
                         {
                             idContenido = item2.idContenido,
+                            idCloudinary = item2.idCloudinary,
                             tipo = item2.tipo,
                             idProducto = item2.idProducto,
                             urlContenido = item2.urlContenido,                          
@@ -219,6 +219,7 @@ namespace MockupApp.DAO
                         contenido.Add(new Contenido
                         {
                             idContenido = item2.idContenido,
+                            idCloudinary = item2.idCloudinary,
                             tipo = item2.tipo,
                             idProducto = item2.idProducto,
                             urlContenido = item2.urlContenido,

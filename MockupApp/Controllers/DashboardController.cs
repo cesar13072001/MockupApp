@@ -87,7 +87,7 @@ namespace MockupApp.Controllers
                 {
                     resultados[Array.IndexOf(files, file)] = new CloudinaryDAO().guardarContenido(file);
                     contenidos.Add(new Contenido { 
-                        idContenido = resultados[Array.IndexOf(files, file)][0],
+                        idCloudinary = resultados[Array.IndexOf(files, file)][0],
                         urlContenido = resultados[Array.IndexOf(files, file)][1],
                         tipo = Array.IndexOf(files, file) == 0 ? false : true,
                     });
@@ -130,7 +130,7 @@ namespace MockupApp.Controllers
                         resultados[Array.IndexOf(files, file)] = new CloudinaryDAO().guardarContenido(file);
                         contenidos.Add(new Contenido
                         {
-                            idContenido = resultados[Array.IndexOf(files, file)][0],
+                            idCloudinary = resultados[Array.IndexOf(files, file)][0],
                             urlContenido = resultados[Array.IndexOf(files, file)][1],
                             tipo = Array.IndexOf(files, file) == 0 ? false : true,
                         });

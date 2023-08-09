@@ -15,11 +15,11 @@ namespace MockupApp.Models
 
     public partial class Contenido
     {
-        public string idContenido { get; set; }
+        public int idContenido { get; set; }
+        public string idCloudinary { get; set; }
         public string urlContenido { get; set; }
         public Nullable<bool> tipo { get; set; }
         public Nullable<int> idProducto { get; set; }
-
         [ScriptIgnore]
         public virtual Producto Producto { get; set; }
     }

@@ -20,7 +20,6 @@ namespace MockupApp.Models
         public int cantidad { get; set; }
         public bool estadoCupon { get; set; }
         public int idProducto { get; set; }
-
         [ScriptIgnore]
         public virtual Producto Producto { get; set; }
     }

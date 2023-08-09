@@ -95,7 +95,7 @@
                         <div class="col-9 mt-1"><p>Guardando</p></div>
                     </div>
 
-                    <button id="btnFormulario" type="submit" class="btn btn-dark">Agregar</button>
+                    <button id="btnFormulario" type="submit" onclick="null" class="btn btn-dark">Agregar</button>
 
                 </div>
 
@@ -146,8 +146,18 @@
 
         }
 
+        function mostrarAlerta(mensaje) {
+            document.getElementById("mensajeAlerta").innerHTML = mensaje;
+            $("#liveToast").show();
 
+            setTimeout(() => {
+                $("#liveToast").hide();
+            }, 3000);
+        }
 
+        function cerrarAlerta() {
+            $("#liveToast").hide();
+        }
 
 
 
@@ -165,14 +175,16 @@
 
                 },
                 "columns": [
-                    { "data": "idProducto", },
+                    { "data": "idProducto", "width": "125px", },
                     { "data": "titulo", },
-                    { "data": "precio", },
-                    { "data": "descuento", },
-                    { "data": "precioDescuento", },
+                    { "data": "precio", "width": "125px", },
+                    { "data": "descuento", "width": "125px", },
+                    { "data": "precioDescuento", "width": "175px", },
 
                     {
-                        "data": "estado", "render":
+                        "data": "estado",
+                        "width": "125px",
+                        "render":
                             function (valor) {
                                 if (valor) { return '<div class="form-check form-switch"><input title="Activo" class="form-check-input" type="checkbox" role="switch" id="switchActivo" checked></div>'; }
                                 else { return '<div class="form-check form-switch"> <input title="Inactivo" class="form-check-input" type="checkbox" role="switch" id="switchActivo"></div>'; }
@@ -230,20 +242,32 @@
                 contentType: "application/json; charset=utf-8",
                 processData: false,
                 contentType: false,
-                async: false,
+                async: true,
+                
                 success: function (data) {
                     tabledata.row.add(data).draw(false);
+                    $("#guardando").attr('hidden', true);
+                    $("#exampleModal").modal("hide");
+                    mostrarAlerta("Producto agregado correctamente");
                 },
                 error: function (error) {
                     console.log(error);
                 },
-                beforeSend: function () {
+                beforeSend: function (data) {
+                    $("#guardando").removeAttr('hidden');
                 }
             });
         }
 
 
-         function editarMockup() {
+        function editarMockup() {
+            /*if (!($("#txtTitulo").val() != producto.titulo ||
+                $("#txtDescipcion").val() != producto.descripcion ||
+                $("#txtPrecio").val() != producto.precio ||
+                $("#txtDescuento").val() != producto.descuento ||
+                ($("#cboEstado").val() == 1 ? true : false) != producto.estado) || ) return;*/
+
+
             var formData = new FormData();
             formData.append("idProducto", $("#txtIdProducto").val());
             formData.append("titulo", $("#txtTitulo").val());
@@ -253,7 +277,7 @@
             formData.append("estado", $("#cboEstado").val() == 1 ? true : false);
             formData.append("psd", $("#formPSD")[0].files[0]);
             formData.append("foto", $("#formFoto")[0].files[0]);
-            $("#guardando").removeAttr('hidden');
+       
             jQuery.ajax({
                 url: '@Url.Action("editarMockup", "Dashboard")',
                 type: "POST",
@@ -262,17 +286,20 @@
                 contentType: "application/json; charset=utf-8",
                 processData: false,
                 contentType: false,
-                async: false,
+                async: true,
                 success: function (data) {
                     tabledata.row(fila).data(data).draw(false);
-                    console.log(data);
+                    $("#guardando").attr('hidden', true);
+                    $("#exampleModal").modal("hide");
+                    mostrarAlerta("Producto actualizado correctamente");
+                    
 
                 },
                 error: function (error) {
                     console.log(error);
                 },
-                beforeSend: function () {
-
+                beforeSend: function (data) {
+                    $("#guardando").removeAttr('hidden');
                 }
             });
         }
@@ -325,9 +352,7 @@
             $("#exampleModal").modal("show");
         }
 
-        $("#exampleModal").on("hidden.bs.modal", function () {
-            limpiar();
-        });
+        
 
 
 
@@ -392,13 +417,30 @@
         }
 
 
+        function cerrarModal() {
+            $("#exampleModal").modal("hide");
+        }
+
+
+        $("#exampleModal").on("hidden.bs.modal", function () {
+            
+            $("#btnFormulario").attr("onclick", null);
+            limpiar();
+        });
+
+
         $("#tabla tbody").on("click", ".btn-ver", function () {
             var filaSeleccionada = $(this).closest("tr");
             let idProducto = tabledata.row(filaSeleccionada).data()["idProducto"];
+            $('#btnFormulario').attr('onclick', 'cerrarModal()');
             $("#btnFormulario").attr("type", "button");
             $("#btnFormulario").html("Aceptar");
-            rellenarCamposFormulario(idProducto,true);
+            rellenarCamposFormulario(idProducto, true);
+            
+            
         });
+
+
 
 
         $("#tabla tbody").on("click", ".btn-editar", function () {
@@ -448,7 +490,7 @@
                 ) {
                     swalWithBootstrapButtons.fire(
                         'Cancelado',
-                        'Usted cancelo la acción',
+                        'Usted canceló la acción',
                         'error'
                     )
                 }

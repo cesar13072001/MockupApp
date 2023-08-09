@@ -430,6 +430,9 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\DataTables\css\semanticui.scss" />
+    <Content Include="Content\DataTables\css\mixins.scss" />
+    <Content Include="Content\DataTables\css\common.scss" />
     <EntityDeploy Include="Models\MockupModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MockupModel.Designer.cs</LastGenOutput>
@@ -437,9 +440,6 @@
     <Content Include="Models\MockupModel.edmx.diagram">
       <DependentUpon>MockupModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Content\DataTables\css\semanticui.scss" />
-    <Content Include="Content\DataTables\css\mixins.scss" />
-    <Content Include="Content\DataTables\css\common.scss" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />

@@ -33,6 +33,11 @@ namespace MockupApp.Models
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
     
+        public virtual ObjectResult<sp_ListarProductos_Result> sp_ListarProductos()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ListarProductos_Result>("sp_ListarProductos");
+        }
+    
         public virtual ObjectResult<sp_LoginUsuario_Result> sp_LoginUsuario(string correo, string contrasenia)
         {
             var correoParameter = correo != null ?
@@ -44,11 +49,6 @@ namespace MockupApp.Models
                 new ObjectParameter("contrasenia", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_LoginUsuario_Result>("sp_LoginUsuario", correoParameter, contraseniaParameter);
-        }
-    
-        public virtual ObjectResult<sp_ListarProductos_Result> sp_ListarProductos()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ListarProductos_Result>("sp_ListarProductos");
         }
     }
 }
