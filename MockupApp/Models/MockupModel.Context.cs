@@ -50,5 +50,10 @@ namespace MockupApp.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_LoginUsuario_Result>("sp_LoginUsuario", correoParameter, contraseniaParameter);
         }
+    
+        public virtual ObjectResult<sp_ListarProductosStore_Result> sp_ListarProductosStore()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ListarProductosStore_Result>("sp_ListarProductosStore");
+        }
     }
 }

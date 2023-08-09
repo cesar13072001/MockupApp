@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="mockupModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="mockupModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Contenido">
           <Key>
             <PropertyRef Name="idContenido" />
@@ -92,6 +92,7 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="sp_ListarProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_ListarProductosStore" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_LoginUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="correo" Type="varchar" Mode="In" />
           <Parameter Name="contrasenia" Type="varchar" Mode="In" />
@@ -115,8 +116,7 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="mockupModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -235,6 +235,7 @@
             <Parameter Name="correo" Mode="In" Type="String" />
             <Parameter Name="contrasenia" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_ListarProductosStore" ReturnType="Collection(mockupModel.sp_ListarProductosStore_Result)" />
         </EntityContainer>
         <ComplexType Name="sp_ListarProductos_Result">
           <Property Type="Int32" Name="idProducto" Nullable="false" />
@@ -252,6 +253,15 @@
           <Property Type="String" Name="correo" Nullable="false" MaxLength="200" />
           <Property Type="Int32" Name="idRol" Nullable="false" />
           <Property Type="String" Name="nombreRol" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="sp_ListarProductosStore_Result">
+          <Property Type="Int32" Name="idProducto" Nullable="false" />
+          <Property Type="String" Name="titulo" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="descripcion" Nullable="false" MaxLength="500" />
+          <Property Type="Decimal" Name="precio" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="descuento" Nullable="true" />
+          <Property Type="Decimal" Name="precioDescuento" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="String" Name="urlContenido" Nullable="true" MaxLength="500" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -336,6 +346,19 @@
                 <ScalarProperty Name="correo" ColumnName="correo" />
                 <ScalarProperty Name="idRol" ColumnName="idRol" />
                 <ScalarProperty Name="nombreRol" ColumnName="nombreRol" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ListarProductosStore" FunctionName="mockupModel.Store.sp_ListarProductosStore">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="mockupModel.sp_ListarProductosStore_Result">
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="descuento" ColumnName="descuento" />
+                <ScalarProperty Name="precioDescuento" ColumnName="precioDescuento" />
+                <ScalarProperty Name="urlContenido" ColumnName="urlContenido" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

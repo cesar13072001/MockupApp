@@ -82,7 +82,7 @@ namespace MockupApp.Controllers
                 producto.precio = Decimal.Parse(precio);
                 producto.estado = true;
                 producto.descuento = Int32.Parse(descuento);
-                producto.precioDescuento = producto.precio * producto.descuento / 100;
+                producto.precioDescuento = (producto.descuento == 0) ? 0 : producto.precio - (producto.precio * producto.descuento / 100);
                 foreach (var file in files)
                 {
                     resultados[Array.IndexOf(files, file)] = new CloudinaryDAO().guardarContenido(file);
@@ -122,7 +122,7 @@ namespace MockupApp.Controllers
                 producto.estado = true;
                 producto.descuento = Int32.Parse(descuento);
                 producto.estado = estado;
-                producto.precioDescuento = producto.precio * producto.descuento / 100;
+                producto.precioDescuento = (producto.descuento == 0) ? 0 :producto.precio - (producto.precio * producto.descuento / 100);
                 foreach (var file in files)
                 {
                     if (file != null)

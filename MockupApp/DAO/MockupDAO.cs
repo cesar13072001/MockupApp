@@ -237,8 +237,6 @@ namespace MockupApp.DAO
                             valorDescuento = item3.valorDescuento,
                         });
                     }
-
-
                     productos.Add(new Producto
                     {
                         idProducto = item.idProducto,
@@ -251,15 +249,30 @@ namespace MockupApp.DAO
                         Contenido = contenido,
                         Cupon = cupon,
                     });
-
                 }
 
-
-                
             }catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+            return productos;
+        }
+
+
+
+        public IEnumerable<sp_ListarProductosStore_Result> listarProductosStore()
+        {
+            List<sp_ListarProductosStore_Result> productos = new List<sp_ListarProductosStore_Result>();
+            try
+            {
+                var resultado = from d in db.sp_ListarProductosStore() select d;
+                productos.AddRange(resultado);
+
+            }catch(Exception ex) { 
+            
+            Console.WriteLine(ex.Message);
+            }
+
             return productos;
         }
 

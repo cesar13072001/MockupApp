@@ -35,35 +35,24 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" href="#!">Start Bootstrap</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">All Products</a></li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
+           
+                <ul class="navbar-nav ms-auto me-1 me-md-3 my-2 my-md-0 ">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            @if(sesion == null) {  <li><a class="dropdown-item" href="@Url.Action("","login")">Iniciar sesión</a></li> }
-                           
-                            
-                            @{if(sesion != null) { 
-                                <li> <h6 class="dropdown-item" href="#" id="txtCorreo">@texto</h6></li>
-                            <li><a class="dropdown-item" href="@Url.Action("","dashboard")">Mi Dashboard</a></li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="@Url.Action("Salir","Store")">Cerrar sesión</a></li>
+                            @if (sesion == null)
+                            {
+                                <li><a class="dropdown-item" href="@Url.Action("","login")">Iniciar sesión</a></li>
                             }
+
+
+                            @{if (sesion != null)
+                                {
+                                    <li> <h6 class="dropdown-item" href="#" id="txtCorreo">@texto</h6></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("","dashboard")">Mi Dashboard</a></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Salir","Store")">Cerrar sesión</a></li>
+                                }
                             }
                         </ul>
                     </li>
@@ -71,18 +60,25 @@
 
 
                 <div class="d-flex">
+
+
+
                     <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onclick="modalCarrito()">
+                            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
 
                         @*<button class="btn btn-outline-dark" onclick="modalCarrito()">*@
                         <i class="bi-cart-fill me-1"></i>
                         Carrito
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill" id="countCarrito()">0</span>
                     </button>
                 </div>
-            </div>
+            
         </div>
     </nav>
+
+
+
+
 
     <div>
         @RenderBody()
@@ -102,97 +98,61 @@
             <h3 class="offcanvas-title" id="offcanvasRightLabel">Mi carrito</h3>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
+        <div class="offcanvas-body" id="contenedorCarrito">
 
 
-            <div class="card mb-3 shadow bg-body-tertiary rounded" style="max-width: 540px;">
-                <div class="badge bg-danger text-white position-absolute " style="top: 0.5rem; right: 0.5rem; cursor:pointer"><i class="fas fa-trash"></i></div>
-                <div class="row g-0">
-                    <div class="col-5">
-                        <img src="https://global-uploads.webflow.com/642d682a6e4ca0d303c81fdf/644901e51572f7056da5903e_box.webp" class="img-fluid rounded-start h-100" alt="...">
-                    </div>
-                    <div class="col-7">
-                        <div class="card-body">
-                            <span class="font-monospace">SKU:123</span>
-                            <h6 class="card-title">Mockup del ganso<br /> </h6>
+            @*<div class="card mb-3 shadow bg-body-tertiary rounded" style="max-width: 540px;">
+                    <div class="badge bg-danger text-white position-absolute " style="top: 0.5rem; right: 0.5rem; cursor:pointer"><i class="fas fa-trash"></i></div>
+                    <div class="row g-0">
+                        <div class="col-5">
+                            <img src="https://global-uploads.webflow.com/642d682a6e4ca0d303c81fdf/644901e51572f7056da5903e_box.webp" class="img-fluid rounded-start h-100" alt="...">
+                        </div>
+                        <div class="col-7">
+                            <div class="card-body">
+                                <span class="font-monospace">SKU:123</span>
+                                <h6 class="card-title">Mockup del ganso<br /> </h6>
 
-                            <h5 class="card-text">S/500</h5>
+                                <h5 class="card-text">S/500</h5>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="card mb-3 shadow bg-body-tertiary rounded" style="max-width: 540px;">
-                <div class="badge bg-danger text-white position-absolute " style="top: 0.5rem; right: 0.5rem; cursor:pointer"><i class="fas fa-trash"></i></div>
-                <div class="row g-0">
-                    <div class="col-5">
-                        <img src="https://global-uploads.webflow.com/642d682a6e4ca0d303c81fdf/644901e51572f7056da5903e_box.webp" class="img-fluid rounded-start h-100" alt="...">
-                    </div>
-                    <div class="col-7">
-                        <div class="card-body">
-                            <span class="font-monospace">SKU:123</span>
-                            <h6 class="card-title">Mockup del ganso<br /> </h6>
+                <div class="card mb-3 shadow bg-body-tertiary rounded" style="max-width: 540px;">
+                    <div class="badge bg-danger text-white position-absolute " style="top: 0.5rem; right: 0.5rem; cursor:pointer"><i class="fas fa-trash"></i></div>
+                    <div class="row g-0">
+                        <div class="col-5">
+                            <img src="https://global-uploads.webflow.com/642d682a6e4ca0d303c81fdf/644901e51572f7056da5903e_box.webp" class="img-fluid rounded-start h-100" alt="...">
+                        </div>
+                        <div class="col-7">
+                            <div class="card-body">
+                                <span class="font-monospace">SKU:123</span>
+                                <h6 class="card-title">Mockup del ganso<br /> </h6>
 
-                            <h5 class="card-text">S/500</h5>
+                                <h5 class="card-text">S/500</h5>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
 
-            <div class="card mb-3 shadow bg-body-tertiary rounded" style="max-width: 540px;">
-                <div class="badge bg-danger text-white position-absolute " style="top: 0.5rem; right: 0.5rem; cursor:pointer"><i class="fas fa-trash"></i></div>
-                <div class="row g-0">
-                    <div class="col-5">
-                        <img src="https://global-uploads.webflow.com/642d682a6e4ca0d303c81fdf/644901e51572f7056da5903e_box.webp" class="img-fluid rounded-start h-100" alt="...">
-                    </div>
-                    <div class="col-7">
-                        <div class="card-body">
-                            <span class="font-monospace">SKU:123</span>
-                            <h6 class="card-title">Mockup del ganso<br /> </h6>
+                <div class="card mb-3 shadow bg-body-tertiary rounded" style="max-width: 540px;">
+                    <div class="badge bg-danger text-white position-absolute " style="top: 0.5rem; right: 0.5rem; cursor:pointer"><i class="fas fa-trash"></i></div>
+                    <div class="row g-0">
+                        <div class="col-5">
+                            <img src="https://global-uploads.webflow.com/642d682a6e4ca0d303c81fdf/644901e51572f7056da5903e_box.webp" class="img-fluid rounded-start h-100" alt="...">
+                        </div>
+                        <div class="col-7">
+                            <div class="card-body">
+                                <span class="font-monospace">SKU:123</span>
+                                <h6 class="card-title">Mockup del ganso<br /> </h6>
 
-                            <h5 class="card-text">S/500</h5>
+                                <h5 class="card-text">S/500</h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <!--<div class="col mb-2 shadow bg-body-tertiary rounded">
-            <div class="card h-100">-->
-            <!-- Product image-->
-            <!--<img class="card-img-top" height="200" src="https://global-uploads.webflow.com/642d682a6e4ca0d303c81fdf/644901e51572f7056da5903e_box.webp" alt="..." />-->
-            <!-- Product details-->
-            <!--<div class="card-body p-2">
-            <div class="text-center">-->
-            <!-- Product name-->
-            <!--<h5 class="fw-bolder">Eliminar</h5>-->
-            <!-- Product price-->
-            <!--$40.00 - $80.00
-                </div>
-            </div>-->
-            <!-- Product actions-->
-            <!--<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Eliminar</a></div>
-                    </div>
-                </div>
-            </div>-->
-
-
-
-
+                </div>*@
 
 
 
@@ -234,8 +194,54 @@
     <script>
 
 
+        rellenarCarrito();
 
 
+        function rellenarCarrito() {
+
+            $.ajax(
+                 {
+                    url: "@Url.Action("obtenerCarrito", "Store")",
+                    type: "GET",
+                    async: false,
+                    success: function (data) {
+                        //debugger;
+                        console.log(data);
+                        var contenidoMandar="";
+                        for (let producto of data) {
+                                contenidoMandar += contenedor(producto.idProducto,
+                                    producto.titulo, producto.urlContenido, producto.precio, producto.precioDescuento);
+
+                        }
+                        $("#contenedorCarrito").html(contenidoMandar);
+                        console.log(data.length);
+                    },
+                    error: function (err, error) {
+
+                    }
+                 }
+            );
+        }
+
+
+        function contenedor(id, titulo, foto, precio, precioDescuento) {
+            return `<div class="card mb-3 shadow bg-body-tertiary rounded" style="max-width: 540px;">
+            <div class="badge bg-danger text-white position-absolute " title="Eliminar" style="top: 0.5rem; right: 0.5rem; cursor:pointer"><i class="fas fa-trash"></i></div>
+            <div class="row g-0">
+                <div class="col-5">
+                    <img src="`+foto +`"class="img-fluid rounded-start h-100" alt="...">
+                </div>
+                <div class="col-7">
+                    <div class="card-body">
+                        <span class="font-monospace">SKU:` + id + `</span>
+                        <h6 class="card-title">`+ titulo +`<br /> </h6>
+
+                        <h5 class="card-text">$`+ precio +`</h5>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        }
 
 
 
