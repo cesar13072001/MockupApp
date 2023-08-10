@@ -69,7 +69,7 @@
                         @*<button class="btn btn-outline-dark" onclick="modalCarrito()">*@
                         <i class="bi-cart-fill me-1"></i>
                         Carrito
-                        <span class="badge bg-dark text-white ms-1 rounded-pill" id="countCarrito()">0</span>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill" id="countCarrito">0</span>
                     </button>
                 </div>
             
@@ -81,117 +81,82 @@
 
 
     <div>
-        @RenderBody()
-    </div>
+            
+      
 
-    <!-- Footer-->
-    <footer class="py-5 bg-dark">
-        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
-    </footer>
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:white;">
+                    <div class="toast-header">
+                        @*<img src="..." class="rounded me-2" alt="...">*@
+                        <strong class="me-auto">Mensaje</strong>
+                        <small>Justo ahora</small>
+                        <button type="button" class="btn-close" onclick="cerrarAlerta()" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body" id="mensajeAlerta">
+                       
+                    </div>
+                </div>
+            </div>    
+
+            
 
 
-
-
-    <!--Modal carrito-->
-    <div class="offcanvas offcanvas-end" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h3 class="offcanvas-title" id="offcanvasRightLabel">Mi carrito</h3>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            @RenderBody()
         </div>
-        <div class="offcanvas-body" id="contenedorCarrito">
+
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+        </footer>
 
 
-            @*<div class="card mb-3 shadow bg-body-tertiary rounded" style="max-width: 540px;">
-                    <div class="badge bg-danger text-white position-absolute " style="top: 0.5rem; right: 0.5rem; cursor:pointer"><i class="fas fa-trash"></i></div>
-                    <div class="row g-0">
-                        <div class="col-5">
-                            <img src="https://global-uploads.webflow.com/642d682a6e4ca0d303c81fdf/644901e51572f7056da5903e_box.webp" class="img-fluid rounded-start h-100" alt="...">
-                        </div>
-                        <div class="col-7">
-                            <div class="card-body">
-                                <span class="font-monospace">SKU:123</span>
-                                <h6 class="card-title">Mockup del ganso<br /> </h6>
 
-                                <h5 class="card-text">S/500</h5>
-                            </div>
-                        </div>
+
+        <!--Modal carrito-->
+        <div class="offcanvas offcanvas-end" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h3 class="offcanvas-title" id="offcanvasRightLabel">Mi carrito</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body" id="contenedorCarrito">
+
+
+            </div>
+
+            <div class="offcanvas-footer" style="padding: 10px">
+
+
+                <div class="row g-0" style="padding:10px 0">
+                    <div class="col-8 pe-2">
+                        <input class="form-control" type="text" placeholder="Ingrese su cupón" />
                     </div>
-                </div>
-
-                <div class="card mb-3 shadow bg-body-tertiary rounded" style="max-width: 540px;">
-                    <div class="badge bg-danger text-white position-absolute " style="top: 0.5rem; right: 0.5rem; cursor:pointer"><i class="fas fa-trash"></i></div>
-                    <div class="row g-0">
-                        <div class="col-5">
-                            <img src="https://global-uploads.webflow.com/642d682a6e4ca0d303c81fdf/644901e51572f7056da5903e_box.webp" class="img-fluid rounded-start h-100" alt="...">
-                        </div>
-                        <div class="col-7">
-                            <div class="card-body">
-                                <span class="font-monospace">SKU:123</span>
-                                <h6 class="card-title">Mockup del ganso<br /> </h6>
-
-                                <h5 class="card-text">S/500</h5>
-                            </div>
-                        </div>
+                    <div class="col-4">
+                        <button type="button" style="width:100%" class="btn btn-light">Aplicar</button>
                     </div>
+
                 </div>
 
 
+                <div class="row g-0">
+                    <h3 class="col-8">Total: </h3>
+                    <h3 class="col-4 text-end" id="totalPagar">S/150.00</h3>
+                </div>
 
-                <div class="card mb-3 shadow bg-body-tertiary rounded" style="max-width: 540px;">
-                    <div class="badge bg-danger text-white position-absolute " style="top: 0.5rem; right: 0.5rem; cursor:pointer"><i class="fas fa-trash"></i></div>
-                    <div class="row g-0">
-                        <div class="col-5">
-                            <img src="https://global-uploads.webflow.com/642d682a6e4ca0d303c81fdf/644901e51572f7056da5903e_box.webp" class="img-fluid rounded-start h-100" alt="...">
-                        </div>
-                        <div class="col-7">
-                            <div class="card-body">
-                                <span class="font-monospace">SKU:123</span>
-                                <h6 class="card-title">Mockup del ganso<br /> </h6>
 
-                                <h5 class="card-text">S/500</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
+                <div class="row g-0">
+                    <button type="button" class="btn btn-dark">Ir a pagar</button>
+                </div>
+            </div>
+
 
 
 
         </div>
-
-        <div class="offcanvas-footer" style="padding: 10px">
-
-
-            <div class="row g-0" style="padding:10px 0">
-                <div class="col-8 pe-2">
-                    <input class="form-control" type="text" placeholder="Ingrese su cupón" />
-                </div>
-                <div class="col-4">
-                    <button type="button" style="width:100%" class="btn btn-light">Aplicar</button>
-                </div>
-
-            </div>
-
-
-            <div class="row g-0">
-                <h3 class="col-8">Total: </h3>
-                <h3 class="col-4 text-end">S/150.00</h3>
-            </div>
-
-
-            <div class="row g-0">
-                <button type="button" class="btn btn-dark">Ir a pagar</button>
-            </div>
-        </div>
-
-
-
-
-    </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/complementos")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-    <script>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/complementos")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+<script>
 
 
         rellenarCarrito();
@@ -207,12 +172,17 @@
                     success: function (data) {
                         //debugger;
                         console.log(data);
-                        var contenidoMandar="";
+                        $("#countCarrito").html(data.length);
+                        var contenidoMandar = "";
+                        var total = 0;
                         for (let producto of data) {
                                 contenidoMandar += contenedor(producto.idProducto,
                                     producto.titulo, producto.urlContenido, producto.precio, producto.precioDescuento);
 
+                            (producto.precioDescuento != 0) ? total += producto.precioDescuento : total +=producto.precio;
+
                         }
+                        $("#totalPagar").html(`$${total}`);
                         $("#contenedorCarrito").html(contenidoMandar);
                         console.log(data.length);
                     },
@@ -224,9 +194,12 @@
         }
 
 
-        function contenedor(id, titulo, foto, precio, precioDescuento) {
+    function contenedor(id, titulo, foto, precio, precioDescuento) {
+        conDescuento = (precioDescuento != 0) ? `<h5 class="card-text"> <span>$` + precioDescuento + `</span> <span class="text-muted text-decoration-line-through">$` + precio +`</span>
+                                       </h5>` : `<h5 class="card-text">$` + precio + `</h5>`;
+
             return `<div class="card mb-3 shadow bg-body-tertiary rounded" style="max-width: 540px;">
-            <div class="badge bg-danger text-white position-absolute " title="Eliminar" style="top: 0.5rem; right: 0.5rem; cursor:pointer"><i class="fas fa-trash"></i></div>
+            <div class="badge bg-danger text-white position-absolute "title="Eliminar" style="top: 0.5rem; right: 0.5rem; cursor:pointer" onclick="quitarProducto(`+ id +`)"><i class="fas fa-trash"></i></div>
             <div class="row g-0">
                 <div class="col-5">
                     <img src="`+foto +`"class="img-fluid rounded-start h-100" alt="...">
@@ -234,10 +207,8 @@
                 <div class="col-7">
                     <div class="card-body">
                         <span class="font-monospace">SKU:` + id + `</span>
-                        <h6 class="card-title">`+ titulo +`<br /> </h6>
-
-                        <h5 class="card-text">$`+ precio +`</h5>
-                    </div>
+                        <h6 class="card-title">`+ titulo + `<br /> </h6>` + conDescuento +
+                    `</div>
                 </div>
             </div>
         </div>`;
@@ -245,7 +216,22 @@
 
 
 
-    </script>
+        function mostrarAlerta(mensaje, tiempo=500) {
+            document.getElementById("mensajeAlerta").innerHTML = mensaje;
+            $("#liveToast").show();
+
+            setTimeout(() => {
+                $("#liveToast").hide();
+            }, tiempo);
+        }
+
+        function cerrarAlerta() {
+            $("#liveToast").hide();
+        }
+
+
+
+</script>
 
 </body>
 </html>

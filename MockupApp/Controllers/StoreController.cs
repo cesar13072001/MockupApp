@@ -103,6 +103,13 @@ namespace MockupApp.Controllers
             return -1;
         }
 
+        public JsonResult EliminarProducto(int id)
+        {
+            List<sp_ListarProductosStore_Result> compras = (List<sp_ListarProductosStore_Result>)Session["carrito"];
+            compras.RemoveAt(capturarUbicacionProducto(id));
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
     }
 
 }

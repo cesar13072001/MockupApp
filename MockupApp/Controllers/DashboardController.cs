@@ -66,7 +66,7 @@ namespace MockupApp.Controllers
 
 
         [HttpPost]
-        public JsonResult guardarMockup(string titulo, string descripcion, string precio, string descuento,
+        public JsonResult guardarMockup(string titulo, string precio, string descuento,
             HttpPostedFileBase psd, HttpPostedFileBase foto)
         {
             HttpPostedFileBase[] files = { psd, foto };
@@ -78,7 +78,6 @@ namespace MockupApp.Controllers
             try
             {
                 producto.titulo = titulo;
-                producto.descripcion = descripcion;
                 producto.precio = Decimal.Parse(precio);
                 producto.estado = true;
                 producto.descuento = Int32.Parse(descuento);
@@ -104,7 +103,7 @@ namespace MockupApp.Controllers
 
 
         [HttpPost]
-        public JsonResult editarMockup(string idProducto, string titulo, string descripcion, string precio, string descuento,
+        public JsonResult editarMockup(string idProducto, string titulo, string precio, string descuento,
             bool estado, HttpPostedFileBase psd = null, HttpPostedFileBase foto = null)
         {
             HttpPostedFileBase[] files = { psd, foto };
@@ -117,7 +116,6 @@ namespace MockupApp.Controllers
             {
                 producto.idProducto = Int32.Parse(idProducto);
                 producto.titulo = titulo;
-                producto.descripcion = descripcion;
                 producto.precio = Decimal.Parse(precio);
                 producto.estado = true;
                 producto.descuento = Int32.Parse(descuento);

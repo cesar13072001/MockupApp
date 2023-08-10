@@ -46,7 +46,6 @@ namespace MockupApp.DAO
                 var product = db.Producto.Find(producto.idProducto);
 
                 if (producto.titulo != product.titulo) product.titulo = producto.titulo;
-                if (producto.descripcion != product.descripcion) product.descripcion = producto.descripcion;
                 if (producto.precio != product.precio) product.precio = producto.precio;
                 if (producto.descuento != product.descuento) product.descuento = producto.descuento;
                 if (producto.precioDescuento != product.precioDescuento) product.precioDescuento = producto.precioDescuento;
@@ -129,7 +128,6 @@ namespace MockupApp.DAO
                     {
                         idProducto = item.idProducto,
                         titulo = item.titulo,
-                        descripcion = item.descripcion,
                         precio = item.precio,
                         estado = item.estado,
                         descuento = item.descuento,
@@ -241,7 +239,6 @@ namespace MockupApp.DAO
                     {
                         idProducto = item.idProducto,
                         titulo = item.titulo,
-                        descripcion = item.descripcion,
                         precio = item.precio,
                         estado = item.estado,
                         descuento = item.descuento,

@@ -109,25 +109,17 @@
         <div id="layoutSidenav_content">
             <main>
 
-                <div aria-live="polite" aria-atomic="true" class="position-relative">
-                    <!-- Position it: -->
-                    <!-- - `.toast-container` for spacing between toasts -->
-                    <!-- - `top-0` & `end-0` to position the toasts in the upper right corner -->
-                    <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
-                    <div class="toast-container top-0 end-0 p-2">
-
-                        <!-- Then put toasts within -->
-                        <div class="toast" role="alert" id="liveToast" aria-live="assertive" aria-atomic="true">
-                            <div class="toast-header">
-                                @*<img src="..." class="rounded me-2" alt="...">*@
-                                <strong class="me-auto">Mensaje</strong>
-                                <small class="text-body-secondary">Justo ahora</small>
-                                <button type="button" class="btn-close" onclick="cerrarAlerta()" data-bs-dismiss="toast" aria-label="Close"></button>
-                            </div>
-                            <div class="toast-body" id="mensajeAlerta"></div>
+                <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:white;">
+                        <div class="toast-header">
+                            @*<img src="..." class="rounded me-2" alt="...">*@
+                            <strong class="me-auto">Mensaje</strong>
+                            <small>Justo ahora</small>
+                            <button type="button" class="btn-close" onclick="cerrarAlerta()" data-bs-dismiss="toast" aria-label="Close"></button>
                         </div>
+                        <div class="toast-body" id="mensajeAlerta">
 
-
+                        </div>
                     </div>
                 </div>
 

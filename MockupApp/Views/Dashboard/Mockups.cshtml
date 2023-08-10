@@ -39,10 +39,6 @@
                             <input type="text" class="form-control" id="txtTitulo" required>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="txtDescripcion" class="form-label">Descripcion</label>
-                            <textarea class="form-control" id="txtDescripcion" rows="2" required></textarea>
-                        </div>
 
                         <div class="mb-3 col-6">
                             <label for="txtPrecio" class="form-label">Precio</label>
@@ -228,7 +224,6 @@
 
             var formData = new FormData();
             formData.append("titulo", $("#txtTitulo").val());
-            formData.append("descripcion", $("#txtDescripcion").val());
             formData.append("precio", $("#txtPrecio").val());
             formData.append("descuento", $("#txtDescuento").val());
             formData.append("psd", $("#formPSD")[0].files[0]);
@@ -261,17 +256,10 @@
 
 
         function editarMockup() {
-            /*if (!($("#txtTitulo").val() != producto.titulo ||
-                $("#txtDescipcion").val() != producto.descripcion ||
-                $("#txtPrecio").val() != producto.precio ||
-                $("#txtDescuento").val() != producto.descuento ||
-                ($("#cboEstado").val() == 1 ? true : false) != producto.estado) || ) return;*/
-
-
+           
             var formData = new FormData();
             formData.append("idProducto", $("#txtIdProducto").val());
             formData.append("titulo", $("#txtTitulo").val());
-            formData.append("descripcion", $("#txtDescripcion").val());
             formData.append("precio", $("#txtPrecio").val());
             formData.append("descuento", $("#txtDescuento").val());
             formData.append("estado", $("#cboEstado").val() == 1 ? true : false);
@@ -312,7 +300,6 @@
         function estadoFormulario(estado) {
             $('#inputId').attr('readonly', estado);
             $("#txtTitulo").attr('readonly', estado);
-            $("#txtDescripcion").attr('readonly', estado);
             $("#txtPrecio").attr('readonly', estado);
             $("#txtDescuento").attr('readonly', estado);
             $("#cboEstado").attr('disabled', estado);
@@ -338,7 +325,6 @@
                  <option selected value="0">Inactivo</option>` ;
 
             $("#txtTitulo").val(producto[0].titulo);
-            $("#txtDescripcion").val(producto[0].descripcion);
             $("#txtPrecio").val(producto[0].precio);
             $("#txtDescuento").val(producto[0].descuento);
             $("#urlPSD").attr("href", producto[0]["Contenido"][0]["urlContenido"]);

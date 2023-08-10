@@ -4,10 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="020937c2dc5041009fa203321be1673b" Name="Diagram1">
+      <Diagram DiagramId="4debfd1a2cce4fb484d8a804f6a74f1e" Name="Diagram1">
         <EntityTypeShape EntityType="mockupModel.Contenido" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="mockupModel.Cupon" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="mockupModel.Producto" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="mockupModel.Producto" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="mockupModel.Rol" Width="1.5" PointX="5.75" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="mockupModel.Usuario" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="mockupModel.FK__Contenido__idPro__2B3F6F97" ManuallyRouted="false" />
