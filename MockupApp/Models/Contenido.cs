@@ -20,7 +20,7 @@ namespace MockupApp.Models
         public string urlContenido { get; set; }
         public Nullable<bool> tipo { get; set; }
         public Nullable<int> idProducto { get; set; }
-        [ScriptIgnore]
+    
         public virtual Producto Producto { get; set; }
     }
 }
