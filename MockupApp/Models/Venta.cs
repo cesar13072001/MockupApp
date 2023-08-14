@@ -12,24 +12,23 @@ namespace MockupApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class Venta
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Usuario()
+        public Venta()
         {
-            this.Venta = new HashSet<Venta>();
+            this.DetalleVenta = new HashSet<DetalleVenta>();
         }
     
-        public int idUsuario { get; set; }
-        public string nombres { get; set; }
-        public string apellidos { get; set; }
-        public string correo { get; set; }
-        public string contrasenia { get; set; }
-        public Nullable<System.DateTime> fechaRegistro { get; set; }
-        public int idRol { get; set; }
+        public int idVenta { get; set; }
+        public decimal totalVenta { get; set; }
+        public Nullable<System.DateTime> fechaCompra { get; set; }
+        public Nullable<decimal> comisionPaypal { get; set; }
+        public string idTransaccionPaypal { get; set; }
+        public Nullable<int> idUsuario { get; set; }
     
-        public virtual Rol Rol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Venta> Venta { get; set; }
+        public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

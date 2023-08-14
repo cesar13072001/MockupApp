@@ -4,15 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4debfd1a2cce4fb484d8a804f6a74f1e" Name="Diagram1">
-        <EntityTypeShape EntityType="mockupModel.Contenido" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="mockupModel.Cupon" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="mockupModel.Producto" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="mockupModel.Rol" Width="1.5" PointX="5.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="mockupModel.Usuario" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="mockupModel.FK__Contenido__idPro__2B3F6F97" ManuallyRouted="false" />
-        <AssociationConnector Association="mockupModel.FK__Cupon__idProduct__2E1BDC42" ManuallyRouted="false" />
-        <AssociationConnector Association="mockupModel.FK__Usuario__idRol__267ABA7A" ManuallyRouted="false" />
+      <Diagram DiagramId="64f03f13aff640ac97d35ec5f7bcf7f8" Name="Diagram1">
+        <EntityTypeShape EntityType="mockupModel.Contenido" Width="1.5" PointX="7.5" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="mockupModel.DetalleVenta" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="mockupModel.Producto" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="mockupModel.Rol" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="mockupModel.Usuario" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="mockupModel.Venta" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="mockupModel.FK__Contenido__idPro__2D27B809" ManuallyRouted="false" />
+        <AssociationConnector Association="mockupModel.FK__DetalleVe__idPro__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="mockupModel.FK__DetalleVe__idVen__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="mockupModel.FK__Usuario__idRol__286302EC" ManuallyRouted="false" />
+        <AssociationConnector Association="mockupModel.FK__Venta__idUsuario__300424B4" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

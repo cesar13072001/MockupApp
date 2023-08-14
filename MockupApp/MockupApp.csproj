@@ -182,13 +182,15 @@
     <Compile Include="DAO\AuthDAO.cs" />
     <Compile Include="DAO\CloudinaryDAO.cs" />
     <Compile Include="DAO\MockupDAO.cs" />
+    <Compile Include="DAO\PayDAO.cs" />
+    <Compile Include="Filters\FilterSessionAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Contenido.cs">
       <DependentUpon>MockupModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Cupon.cs">
+    <Compile Include="Models\DetalleVenta.cs">
       <DependentUpon>MockupModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MockupModel.Context.cs">
@@ -206,6 +208,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MockupModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\PaypalAuthorizationResponse.cs" />
+    <Compile Include="Models\PaypalOrder.cs" />
+    <Compile Include="Models\PaypalOrderCapture.cs" />
+    <Compile Include="Models\PaypalOrderResponse.cs" />
     <Compile Include="Models\Producto.cs">
       <DependentUpon>MockupModel.tt</DependentUpon>
     </Compile>
@@ -222,6 +228,9 @@
       <DependentUpon>MockupModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs">
+      <DependentUpon>MockupModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Venta.cs">
       <DependentUpon>MockupModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -572,11 +581,12 @@
     <Content Include="Views\Shared\_Store.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Store\Index.cshtml" />
-    <Content Include="Views\Store\Details.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Register\Index.cshtml" />
     <Content Include="Views\Shared\_Auth.cshtml" />
     <Content Include="Views\Dashboard\Mockups.cshtml" />
+    <Content Include="Views\Store\Success.cshtml" />
+    <Content Include="Views\Dashboard\Mismockups.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

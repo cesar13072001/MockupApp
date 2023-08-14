@@ -85,69 +85,6 @@ namespace MockupApp.DAO
 
 
 
-        public List<Producto> listarMockups()
-        {
-            List<Producto> producto = new List<Producto>();
-            
-            try
-            {
-              
-
-                var lista = from p in db.Producto select p;
-                foreach(var item in lista)
-                {
-                    var contenido = new List<Contenido>();
-                    var cupon = new List<Cupon>();
-
-                    foreach(var item2 in item.Contenido)
-                    {
-                        contenido.Add(new Contenido
-                        {
-                            idContenido = item2.idContenido,
-                            idCloudinary = item2.idCloudinary,
-                            tipo = item2.tipo,
-                            idProducto = item2.idProducto,
-                            urlContenido = item2.urlContenido,                          
-                        });
-                    }
-
-                    foreach(var item3 in item.Cupon)
-                    {
-                        cupon.Add(new Cupon
-                        {
-                            idCupon = item3.idCupon,
-                            idProducto=item3.idProducto,
-                            cantidad = item3.cantidad,
-                            estadoCupon = item3.estadoCupon,
-                            valorDescuento = item3.valorDescuento,
-                        });
-                    }
-
-
-                    producto.Add(new Producto
-                    {
-                        idProducto = item.idProducto,
-                        titulo = item.titulo,
-                        precio = item.precio,
-                        estado = item.estado,
-                        descuento = item.descuento,
-                        precioDescuento = item.precioDescuento,            
-                        Contenido = contenido,
-                        Cupon = cupon,
-                    });
-                    
-                }
-                           
-             
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                producto = null;
-            }
-            return producto;
-        }
-
 
         public IEnumerable<sp_ListarProductos_Result> listarMockup()
         {
@@ -186,9 +123,7 @@ namespace MockupApp.DAO
             {
                 var producto = db.Producto.Find(id);
                 var contenido = db.Contenido.Where(x => x.idProducto == id);
-                var cupon = db.Cupon.Where(x => x.idProducto == id);
                 db.Contenido.RemoveRange(contenido);
-                db.Cupon.RemoveRange(cupon);
                 db.Producto.Remove(producto);
                 resultado = db.SaveChanges();
             }catch(Exception ex)
@@ -210,7 +145,7 @@ namespace MockupApp.DAO
                 foreach (var item in lista)
                 {
                     var contenido = new List<Contenido>();
-                    var cupon = new List<Cupon>();
+                    
 
                     foreach (var item2 in item.Contenido)
                     {
@@ -224,17 +159,7 @@ namespace MockupApp.DAO
                         });
                     }
 
-                    foreach (var item3 in item.Cupon)
-                    {
-                        cupon.Add(new Cupon
-                        {
-                            idCupon = item3.idCupon,
-                            idProducto = item3.idProducto,
-                            cantidad = item3.cantidad,
-                            estadoCupon = item3.estadoCupon,
-                            valorDescuento = item3.valorDescuento,
-                        });
-                    }
+                   
                     productos.Add(new Producto
                     {
                         idProducto = item.idProducto,
@@ -244,7 +169,7 @@ namespace MockupApp.DAO
                         descuento = item.descuento,
                         precioDescuento = item.precioDescuento,
                         Contenido = contenido,
-                        Cupon = cupon,
+              
                     });
                 }
 
@@ -271,6 +196,22 @@ namespace MockupApp.DAO
             }
 
             return productos;
+        }
+
+        public string obtenerArchivoMockup(int idProducto)
+        {
+            string archivo = string.Empty;
+            try
+            {
+                var consulta = db.Contenido.Where(c => c.idProducto == idProducto && c.tipo == false).First();
+
+                archivo = consulta.urlContenido;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return archivo;
         }
 
     }

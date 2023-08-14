@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Mismockups";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+<br />
+<h2>Mis Mockups</h2>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+    <li class="breadcrumb-item active">Mis Mockups</li>
+</ol>
+
+
+<br />
+
+@{ foreach (var venta in ViewBag.ventas as List<MockupApp.Models.Venta>)
+    {
+
+        <div class="accordion" id="venta@{@venta.idVenta}">
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@{@venta.idVenta}" aria-expanded="true" aria-controls="collapseOne">
+                        <strong>Compra N°: @venta.idVenta</strong>
+                    </button>
+                </h2>
+                <div id="collapse@{@venta.idVenta}" class="accordion-collapse collapse" data-bs-parent="#venta@{@venta.idVenta}">
+                    <div class="accordion-body">
+                        <p><strong>Id Transacción Paypal: </strong>@venta.idTransaccionPaypal</p>
+                        <p><strong>Fecha de pago:</strong> @venta.fechaCompra</p>
+                        <div style="background-color: white;">
+                        <div class="table-responsive card shadow bg-body-tertiary rounded">
+
+                            <table class="table">
+                                <thead class="table-light">
+                                    <tr class="text-center card-header ">
+                                        <th scope="col">Sku</th>
+                                        <th class="text-start" scope="col">Producto</th>
+                                        <th scope="col">Archivo</th>
+                                        <th scope="col">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="background-color: white;">
+
+                                    @foreach (var detalle in venta.DetalleVenta)
+                                    {
+                                        <tr class="text-center" style="vertical-align: middle;">
+                                            @foreach (var producto in detalle.Producto.Contenido.Where(p => p.tipo == true))
+                                            {
+                                                <th scope="row">@producto.idProducto</th>
+                                                <td class="text-start"><img src="@producto.urlContenido" height="50" /> @detalle.Producto.titulo</td>
+                                            }
+                                            @foreach (var producto in detalle.Producto.Contenido.Where(p => p.tipo == false))
+                                            {
+                                                <td>
+                                                    <a href="@producto.urlContenido" title="Archivo .psd" id="urlPSD">
+                                                        <i class="fa fa-file-powerpoint fa-3x" style="color:black;"></i>
+                                                    </a>
+                                                </td>
+                                            }
+                                            <td>$@detalle.subtotal</td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                            <h5 class="text-end pe-3 pb-1">Total pagado: $@venta.totalVenta</h5>
+                            
+                        </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br />
+
+        
+    }
+
+}

@@ -12,6 +12,7 @@ namespace MockupApp.DAO
     {
         readonly mockupEntities db = new mockupEntities();
 
+
         public int guardarUsuario(Usuario usu)
         {
             int resultado = 0;
@@ -23,6 +24,7 @@ namespace MockupApp.DAO
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 resultado = 0;
             }
             
@@ -42,6 +44,7 @@ namespace MockupApp.DAO
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
             }
             return resultado;
         }
@@ -65,7 +68,7 @@ namespace MockupApp.DAO
             }
             catch (Exception ex)
             {
-                
+                Console.WriteLine(ex.Message);
             }
             return usuario;
         }

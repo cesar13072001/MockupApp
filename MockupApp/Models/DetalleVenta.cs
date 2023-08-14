@@ -11,16 +11,15 @@ namespace MockupApp.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.Web.Script.Serialization;
-
-    public partial class Cupon
+    
+    public partial class DetalleVenta
     {
-        public string idCupon { get; set; }
-        public int valorDescuento { get; set; }
-        public int cantidad { get; set; }
-        public bool estadoCupon { get; set; }
-        public int idProducto { get; set; }
-        [ScriptIgnore]
+        public int idDetalleVenta { get; set; }
+        public Nullable<int> idVenta { get; set; }
+        public Nullable<int> idProducto { get; set; }
+        public Nullable<decimal> subtotal { get; set; }
+    
         public virtual Producto Producto { get; set; }
+        public virtual Venta Venta { get; set; }
     }
 }

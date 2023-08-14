@@ -18,19 +18,19 @@ namespace MockupApp.Models
         public Producto()
         {
             this.Contenido = new HashSet<Contenido>();
-            this.Cupon = new HashSet<Cupon>();
+            this.DetalleVenta = new HashSet<DetalleVenta>();
         }
     
         public int idProducto { get; set; }
         public string titulo { get; set; }
         public decimal precio { get; set; }
-        public Nullable<bool> estado { get; set; }
+        public bool estado { get; set; }
         public Nullable<int> descuento { get; set; }
         public Nullable<decimal> precioDescuento { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contenido> Contenido { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cupon> Cupon { get; set; }
+        public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
     }
 }

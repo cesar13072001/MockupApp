@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Success";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago exitoso</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body class="v-100" style="background-color: whitesmoke;">
+
+
+    <div class="container py-5">
+        <div class="row d-flex justify-content-center text-center align-items-center">
+            <div class="col col-xl-10">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="row g-0">
+
+                        
+
+                        <div style="background-color: white;">
+                            <img src="https://res.cloudinary.com/dl1mbt9jb/image/upload/v1691887885/recursos/check_rqim4p.png" height="200" width="200">
+                            <h2>¡Gracias por tu compra!</h2>
+                            <p>Tu solicitud de compra fue realizada correctamente</p>
+                            <p><strong>Fecha de compra:</strong> @ViewBag.fecha</p>
+                            <p><strong>Metodo de pago:</strong> Paypal - @ViewBag.id</p>
+
+                            <h4>Resumen de compra</h4>
+                            @ViewBag.comision
+
+                            <div style="width: 90%;margin: 0 auto">
+                                <div class="table-responsive card shadow bg-body-tertiary rounded">
+                                    <table class="table">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th scope="col">Sku</th>
+                                                <th class="text-start">Producto</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{ foreach (var item in ViewBag.productos as List<MockupApp.Models.ItemOC>)
+                                                {
+                                                    <tr style="vertical-align: middle;">
+                                                        <td scope="row">@item.Sku</td>
+                                                        <td class="text-start"><img style="width:100px;" src="@item.ImageUrl" />  @item.Name</td>
+                                                        <td>$@item.UnitAmount.Value</td>
+                                                    </tr>
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                    <h3 class="text-end pe-3">Total: $@ViewBag.total</h3>
+                                </div>
+                                <br />
+                                <a href="/dashboard/mismockups" class="btn btn-dark">Ver mis mockups</a>
+                                <a href="/" class="btn btn-light">Regresar a la tienda</a>
+                                <br><br>
+                                <p>*Recuerde que sus mockups se encuentran en su Dashboard - Mis Mockups</p>
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</body>
+</html>
+

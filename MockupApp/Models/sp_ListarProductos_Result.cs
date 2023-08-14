@@ -16,7 +16,7 @@ namespace MockupApp.Models
         public int idProducto { get; set; }
         public string titulo { get; set; }
         public decimal precio { get; set; }
-        public Nullable<bool> estado { get; set; }
+        public bool estado { get; set; }
         public Nullable<int> descuento { get; set; }
         public Nullable<decimal> precioDescuento { get; set; }
     }

@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using Microsoft.Ajax.Utilities;
 using MockupApp.DAO;
+using MockupApp.Filters;
 using MockupApp.Models;
 using System;
 using System.Collections.Generic;
@@ -15,42 +16,48 @@ namespace MockupApp.Controllers
 {
     public class DashboardController : Controller
     {
+
+        [FilterSession(2)]
         // GET: Dashboard
         public ActionResult Index()
         {
-            if (Session["usuario"] == null) return RedirectToAction("", "");
             return View();
         }
 
+
+        [FilterSession(1)]
         public ActionResult Mockups()
         {
             return View();
         }
 
 
+        public ActionResult Mismockups()
+        {
+            var ventas = new PayDAO().obtenerComprasUsuario((Session["usuario"] as sp_LoginUsuario_Result).idUsuario);
+            ViewBag.ventas = ventas;   
+            return View();
+        }
 
+
+        [FilterSession(1)]
         public JsonResult listarMockup()
         {
-            /*List<Producto> producto = new List<Producto>();
-            producto = new MockupDAO().listarMockups();*/
-
             var producto = new MockupDAO().listarMockup();
-            
-            
-
             return Json(new {data = producto}, JsonRequestBehavior.AllowGet);
         }
 
 
 
         [HttpPost]
+        [FilterSession(1)]
         public JsonResult buscarMockup(int id) {
             var producto = new MockupDAO().listarMockupPorId(id);
-
             return Json( producto,JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
+        [FilterSession(1)]
         public JsonResult actualizarEstadoMockup(int id, bool estado)
         {
             int resultado = new MockupDAO().actualizarEstadoMockup(id, estado);
@@ -58,6 +65,7 @@ namespace MockupApp.Controllers
         }
 
         [HttpPost]
+        [FilterSession(1)]
         public JsonResult eliminarMockup(int id)
         {
             int resultado = new MockupDAO().eliminarMockup(id);
@@ -66,6 +74,7 @@ namespace MockupApp.Controllers
 
 
         [HttpPost]
+        [FilterSession(1)]
         public JsonResult guardarMockup(string titulo, string precio, string descuento,
             HttpPostedFileBase psd, HttpPostedFileBase foto)
         {
@@ -103,6 +112,7 @@ namespace MockupApp.Controllers
 
 
         [HttpPost]
+        [FilterSession(1)]
         public JsonResult editarMockup(string idProducto, string titulo, string precio, string descuento,
             bool estado, HttpPostedFileBase psd = null, HttpPostedFileBase foto = null)
         {
@@ -146,11 +156,6 @@ namespace MockupApp.Controllers
             }
             return Json(producto, JsonRequestBehavior.AllowGet);
         }
-
-
-
-
-
 
 
     }

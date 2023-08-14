@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +15,10 @@ namespace MockupApp.DAO
     {
 
 
-        static Account account = new Account("dl1mbt9jb", "642354479744296", "_4FWvnUiIAwIc3TjO_mlJbgNjQI");
+        static Account account = new Account(
+            ConfigurationManager.AppSettings["cloudCloudinary"],
+            ConfigurationManager.AppSettings["apiKeyCloudinary"],
+            ConfigurationManager.AppSettings["apiSecretCloudinary"]);
 
         Cloudinary cloudinary = new Cloudinary(account);
 

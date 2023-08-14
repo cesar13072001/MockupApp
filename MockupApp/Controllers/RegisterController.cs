@@ -23,14 +23,11 @@ namespace MockupApp.Controllers
         public JsonResult VerificadorCorreo(string email)
         {
             string resultado = string.Empty;
-
             resultado = new AuthDAO().verificarCorreo(email) == 0 ? "" : "Correo ya registrado";
-
             if(resultado != "")
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
             }
-
             return Json(resultado, JsonRequestBehavior.AllowGet);
             
         }
@@ -45,12 +42,9 @@ namespace MockupApp.Controllers
         {
             int resultado;
             usuario.idRol = 2;
-
+            usuario.fechaRegistro = DateTime.Now;
             resultado = new AuthDAO().guardarUsuario(usuario);
-
-
-            if (resultado == 0) Response.StatusCode = (int)HttpStatusCode.BadRequest;
-        
+            if (resultado == 0) Response.StatusCode = (int)HttpStatusCode.BadRequest; 
             return Json(new { resultado = resultado}, JsonRequestBehavior.AllowGet);
 
         }

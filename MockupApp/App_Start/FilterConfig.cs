@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using MockupApp.Filters;
+using System.Web;
 using System.Web.Mvc;
 
 namespace MockupApp
@@ -8,6 +9,7 @@ namespace MockupApp
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            //filters.Add(new FilterSessionAttribute());
         }
     }
 }

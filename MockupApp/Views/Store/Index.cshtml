@@ -6,7 +6,7 @@
 
 
 
-<!-- Header-->
+
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
@@ -28,26 +28,18 @@
                         <div class="card h-100">
                             @if (producto.descuento != 0)
                             {
-                                <!-- Sale badge-->
+                               
                                 <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">@producto.descuento% desc.</div>
 
                             }
-                            <!-- Product image-->
+                            
                             <img class="card-img-top" src=@producto.urlContenido />
-                            <!-- Product details-->
+                            
                             <div class="card-body p-4">
                                 <div class="text-center">
-                                    <!-- Product name-->
+                                    
                                     <h5 class="fw-bolder">@producto.titulo</h5>
-                                    <!-- Product reviews-->
-                                    @*<div class="d-flex justify-content-center small text-warning mb-2">
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                        </div>*@
-                                    <!-- Product price-->
+                                  
                                     @if (producto.descuento != 0)
                                     {
                                         <span class="text-muted text-decoration-line-through">$@producto.precio</span>
@@ -59,7 +51,7 @@
                                     }
                                 </div>
                             </div>
-                            <!-- Product actions-->
+                            
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 
 
@@ -84,16 +76,29 @@
 
 
 
-<div class="modal-dialog modal-xl modal-dialog-centered">
-
-
-</div>
-
 
 
 @section scripts{
 
+
     <script>
+
+        window.addEventListener("load", function (event) {
+            const valores = window.location.search;
+           
+            const urlParams = new URLSearchParams(valores);
+            
+            var estado = urlParams.get('cancel');
+            
+            
+            if (estado == 'true')
+                mostrarAlerta("La compra fue cancelada",5000);
+
+        });
+
+
+
+
         function agregarCarrito(id) {
 
             $.ajax(
@@ -138,6 +143,42 @@
                  }
             );
         }
+
+
+
+        function comprarPaypal() {
+            jQuery.ajax({
+                url: '@Url.Action("Paypal", "Store")',
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    //debugger;
+                    if (data.mensaje != "" && data.cantidad > 0) {
+                        mostrarAlerta(data.mensaje, 1000);
+                    }
+
+                     else if (data.status && data.cantidad != 0) {
+
+                        var linkPago = data.respuesta.Links[1].Href;
+                        console.log(linkPago);
+                        window.location.href = linkPago;
+                    }
+                     else if (data.cantidad == 0) {
+                        mostrarAlerta("Su carrito esta vacio", 1000);
+                     }
+                    else {
+                        mostrarAlerta("Vuelva a intentarlo mas tarde", 1000);
+                        
+                     }
+
+
+                },
+                beforeSend: function () {
+                }
+            });
+        }
+
 
     </script>
 

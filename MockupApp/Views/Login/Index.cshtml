@@ -76,19 +76,8 @@
                 //correcta
                 success: function (data) {
 
-                    document.getElementById("mensajeAlerta").innerHTML = "Logeo exitoso";
-                    $("#liveToast").show();
+                    location.href = "/";
 
-
-
-                    setTimeout(() => {
-                        $("#liveToast").hide();
-
-                        location.href = "/";
-                
-                        $("#txtCorreo").val("");
-                        $("#txtContrasenia").val("");
-                    }, 2000);
 
                 },
                 error: function (error) {
@@ -96,8 +85,6 @@
 
                     document.getElementById("mensajeAlerta").innerHTML = "Credenciales incorrectas";
                     $("#liveToast").show();
-
-
 
                     setTimeout(() => {
                         $("#liveToast").hide();

@@ -28,10 +28,11 @@ namespace MockupApp.Models
         }
     
         public virtual DbSet<Contenido> Contenido { get; set; }
-        public virtual DbSet<Cupon> Cupon { get; set; }
+        public virtual DbSet<DetalleVenta> DetalleVenta { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Venta> Venta { get; set; }
     
         public virtual ObjectResult<sp_ListarProductos_Result> sp_ListarProductos()
         {
@@ -55,5 +56,7 @@ namespace MockupApp.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_LoginUsuario_Result>("sp_LoginUsuario", correoParameter, contraseniaParameter);
         }
+    
+        
     }
 }

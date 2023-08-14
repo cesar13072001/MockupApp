@@ -3,10 +3,10 @@
     ViewBag.Title = "Mockups";
     Layout = "~/Views/Shared/_Dashboard.cshtml";
 }
-
+<br />
 <h2>Mockups</h2>
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="index.html">Resumen</a></li>
+    <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
     <li class="breadcrumb-item active">Mockups</li>
 </ol>
 
@@ -47,7 +47,7 @@
 
                         <div class="mb-3 col-6">
                             <label for="txtDescuento" class="form-label">Descuento</label>
-                            <input type="number" class="form-control" id="txtDescuento" required>
+                            <input type="number" class="form-control" id="txtDescuento" value="0" required>
                         </div>
 
                         <div id="divEstado"></div>
@@ -221,7 +221,7 @@
 
 
         function agregarMockup() {
-
+            
             var formData = new FormData();
             formData.append("titulo", $("#txtTitulo").val());
             formData.append("precio", $("#txtPrecio").val());

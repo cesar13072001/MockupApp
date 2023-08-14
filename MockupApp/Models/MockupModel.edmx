@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="mockupModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="mockupModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Contenido">
           <Key>
             <PropertyRef Name="idContenido" />
@@ -15,15 +15,14 @@
           <Property Name="tipo" Type="bit" />
           <Property Name="idProducto" Type="int" />
         </EntityType>
-        <EntityType Name="Cupon">
+        <EntityType Name="DetalleVenta">
           <Key>
-            <PropertyRef Name="idCupon" />
+            <PropertyRef Name="idDetalleVenta" />
           </Key>
-          <Property Name="idCupon" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="valorDescuento" Type="int" Nullable="false" />
-          <Property Name="cantidad" Type="int" Nullable="false" />
-          <Property Name="estadoCupon" Type="bit" Nullable="false" />
-          <Property Name="idProducto" Type="int" Nullable="false" />
+          <Property Name="idDetalleVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idVenta" Type="int" />
+          <Property Name="idProducto" Type="int" />
+          <Property Name="subtotal" Type="decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
@@ -32,7 +31,7 @@
           <Property Name="idProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="titulo" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="precio" Type="decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="estado" Type="bit" />
+          <Property Name="estado" Type="bit" Nullable="false" />
           <Property Name="descuento" Type="int" />
           <Property Name="precioDescuento" Type="decimal" Precision="10" Scale="2" />
         </EntityType>
@@ -52,9 +51,21 @@
           <Property Name="apellidos" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="correo" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="contrasenia" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="fechaRegistro" Type="datetime" />
           <Property Name="idRol" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Contenido__idPro__2B3F6F97">
+        <EntityType Name="Venta">
+          <Key>
+            <PropertyRef Name="idVenta" />
+          </Key>
+          <Property Name="idVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="totalVenta" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="fechaCompra" Type="datetime" />
+          <Property Name="comisionPaypal" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="idTransaccionPaypal" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="idUsuario" Type="int" />
+        </EntityType>
+        <Association Name="FK__Contenido__idPro__2D27B809">
           <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
           <End Role="Contenido" Type="Self.Contenido" Multiplicity="*" />
           <ReferentialConstraint>
@@ -66,19 +77,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Cupon__idProduct__2E1BDC42">
-          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
-          <End Role="Cupon" Type="Self.Cupon" Multiplicity="*" />
+        <Association Name="FK__DetalleVe__idPro__33D4B598">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
+          <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Producto">
               <PropertyRef Name="idProducto" />
             </Principal>
-            <Dependent Role="Cupon">
+            <Dependent Role="DetalleVenta">
               <PropertyRef Name="idProducto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Usuario__idRol__267ABA7A">
+        <Association Name="FK__DetalleVe__idVen__32E0915F">
+          <End Role="Venta" Type="Self.Venta" Multiplicity="0..1" />
+          <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Venta">
+              <PropertyRef Name="idVenta" />
+            </Principal>
+            <Dependent Role="DetalleVenta">
+              <PropertyRef Name="idVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__idRol__286302EC">
           <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -90,6 +113,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Venta__idUsuario__300424B4">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_ListarProductoDashboard" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_ListarProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_ListarProductosStore" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_LoginUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -98,25 +134,33 @@
         </Function>
         <EntityContainer Name="mockupModelStoreContainer">
           <EntitySet Name="Contenido" EntityType="Self.Contenido" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Cupon" EntityType="Self.Cupon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetalleVenta" EntityType="Self.DetalleVenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Contenido__idPro__2B3F6F97" Association="Self.FK__Contenido__idPro__2B3F6F97">
+          <EntitySet Name="Venta" EntityType="Self.Venta" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Contenido__idPro__2D27B809" Association="Self.FK__Contenido__idPro__2D27B809">
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Contenido" EntitySet="Contenido" />
           </AssociationSet>
-          <AssociationSet Name="FK__Cupon__idProduct__2E1BDC42" Association="Self.FK__Cupon__idProduct__2E1BDC42">
+          <AssociationSet Name="FK__DetalleVe__idPro__33D4B598" Association="Self.FK__DetalleVe__idPro__33D4B598">
             <End Role="Producto" EntitySet="Producto" />
-            <End Role="Cupon" EntitySet="Cupon" />
+            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
           </AssociationSet>
-          <AssociationSet Name="FK__Usuario__idRol__267ABA7A" Association="Self.FK__Usuario__idRol__267ABA7A">
+          <AssociationSet Name="FK__DetalleVe__idVen__32E0915F" Association="Self.FK__DetalleVe__idVen__32E0915F">
+            <End Role="Venta" EntitySet="Venta" />
+            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__idRol__286302EC" Association="Self.FK__Usuario__idRol__286302EC">
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
+          <AssociationSet Name="FK__Venta__idUsuario__300424B4" Association="Self.FK__Venta__idUsuario__300424B4">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="mockupModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -129,18 +173,18 @@
           <Property Name="urlContenido" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="tipo" Type="Boolean" />
           <Property Name="idProducto" Type="Int32" />
-          <NavigationProperty Name="Producto" Relationship="Self.FK__Contenido__idPro__2B3F6F97" FromRole="Contenido" ToRole="Producto" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK__Contenido__idPro__2D27B809" FromRole="Contenido" ToRole="Producto" />
         </EntityType>
-        <EntityType Name="Cupon">
+        <EntityType Name="DetalleVenta">
           <Key>
-            <PropertyRef Name="idCupon" />
+            <PropertyRef Name="idDetalleVenta" />
           </Key>
-          <Property Name="idCupon" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="valorDescuento" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Int32" Nullable="false" />
-          <Property Name="estadoCupon" Type="Boolean" Nullable="false" />
-          <Property Name="idProducto" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Producto" Relationship="Self.FK__Cupon__idProduct__2E1BDC42" FromRole="Cupon" ToRole="Producto" />
+          <Property Name="idDetalleVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idVenta" Type="Int32" />
+          <Property Name="idProducto" Type="Int32" />
+          <Property Name="subtotal" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK__DetalleVe__idPro__33D4B598" FromRole="DetalleVenta" ToRole="Producto" />
+          <NavigationProperty Name="Venta" Relationship="Self.FK__DetalleVe__idVen__32E0915F" FromRole="DetalleVenta" ToRole="Venta" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
@@ -149,11 +193,11 @@
           <Property Name="idProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="titulo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="precio" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="estado" Type="Boolean" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
           <Property Name="descuento" Type="Int32" />
           <Property Name="precioDescuento" Type="Decimal" Precision="10" Scale="2" />
-          <NavigationProperty Name="Contenido" Relationship="Self.FK__Contenido__idPro__2B3F6F97" FromRole="Producto" ToRole="Contenido" />
-          <NavigationProperty Name="Cupon" Relationship="Self.FK__Cupon__idProduct__2E1BDC42" FromRole="Producto" ToRole="Cupon" />
+          <NavigationProperty Name="Contenido" Relationship="Self.FK__Contenido__idPro__2D27B809" FromRole="Producto" ToRole="Contenido" />
+          <NavigationProperty Name="DetalleVenta" Relationship="Self.FK__DetalleVe__idPro__33D4B598" FromRole="Producto" ToRole="DetalleVenta" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -161,7 +205,7 @@
           </Key>
           <Property Name="idRol" Type="Int32" Nullable="false" />
           <Property Name="nombreRol" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK__Usuario__idRol__267ABA7A" FromRole="Rol" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Usuario__idRol__286302EC" FromRole="Rol" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -172,10 +216,25 @@
           <Property Name="apellidos" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="correo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="contrasenia" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fechaRegistro" Type="DateTime" Precision="3" />
           <Property Name="idRol" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Rol" Relationship="Self.FK__Usuario__idRol__267ABA7A" FromRole="Usuario" ToRole="Rol" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK__Usuario__idRol__286302EC" FromRole="Usuario" ToRole="Rol" />
+          <NavigationProperty Name="Venta" Relationship="Self.FK__Venta__idUsuario__300424B4" FromRole="Usuario" ToRole="Venta" />
         </EntityType>
-        <Association Name="FK__Contenido__idPro__2B3F6F97">
+        <EntityType Name="Venta">
+          <Key>
+            <PropertyRef Name="idVenta" />
+          </Key>
+          <Property Name="idVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="totalVenta" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="fechaCompra" Type="DateTime" Precision="3" />
+          <Property Name="comisionPaypal" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="idTransaccionPaypal" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idUsuario" Type="Int32" />
+          <NavigationProperty Name="DetalleVenta" Relationship="Self.FK__DetalleVe__idVen__32E0915F" FromRole="Venta" ToRole="DetalleVenta" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Venta__idUsuario__300424B4" FromRole="Venta" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK__Contenido__idPro__2D27B809">
           <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
           <End Role="Contenido" Type="Self.Contenido" Multiplicity="*" />
           <ReferentialConstraint>
@@ -187,19 +246,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Cupon__idProduct__2E1BDC42">
-          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
-          <End Role="Cupon" Type="Self.Cupon" Multiplicity="*" />
+        <Association Name="FK__DetalleVe__idPro__33D4B598">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
+          <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Producto">
               <PropertyRef Name="idProducto" />
             </Principal>
-            <Dependent Role="Cupon">
+            <Dependent Role="DetalleVenta">
               <PropertyRef Name="idProducto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Usuario__idRol__267ABA7A">
+        <Association Name="FK__DetalleVe__idVen__32E0915F">
+          <End Role="Venta" Type="Self.Venta" Multiplicity="0..1" />
+          <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Venta">
+              <PropertyRef Name="idVenta" />
+            </Principal>
+            <Dependent Role="DetalleVenta">
+              <PropertyRef Name="idVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__idRol__286302EC">
           <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -211,23 +282,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Venta__idUsuario__300424B4">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="mockupEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Contenido" EntityType="Self.Contenido" />
-          <EntitySet Name="Cupon" EntityType="Self.Cupon" />
+          <EntitySet Name="DetalleVenta" EntityType="Self.DetalleVenta" />
           <EntitySet Name="Producto" EntityType="Self.Producto" />
           <EntitySet Name="Rol" EntityType="Self.Rol" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" />
-          <AssociationSet Name="FK__Contenido__idPro__2B3F6F97" Association="Self.FK__Contenido__idPro__2B3F6F97">
+          <EntitySet Name="Venta" EntityType="Self.Venta" />
+          <AssociationSet Name="FK__Contenido__idPro__2D27B809" Association="Self.FK__Contenido__idPro__2D27B809">
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Contenido" EntitySet="Contenido" />
           </AssociationSet>
-          <AssociationSet Name="FK__Cupon__idProduct__2E1BDC42" Association="Self.FK__Cupon__idProduct__2E1BDC42">
+          <AssociationSet Name="FK__DetalleVe__idPro__33D4B598" Association="Self.FK__DetalleVe__idPro__33D4B598">
             <End Role="Producto" EntitySet="Producto" />
-            <End Role="Cupon" EntitySet="Cupon" />
+            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
           </AssociationSet>
-          <AssociationSet Name="FK__Usuario__idRol__267ABA7A" Association="Self.FK__Usuario__idRol__267ABA7A">
+          <AssociationSet Name="FK__DetalleVe__idVen__32E0915F" Association="Self.FK__DetalleVe__idVen__32E0915F">
+            <End Role="Venta" EntitySet="Venta" />
+            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__idRol__286302EC" Association="Self.FK__Usuario__idRol__286302EC">
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Venta__idUsuario__300424B4" Association="Self.FK__Venta__idUsuario__300424B4">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Venta" EntitySet="Venta" />
           </AssociationSet>
           <FunctionImport Name="sp_ListarProductos" ReturnType="Collection(mockupModel.sp_ListarProductos_Result)" />
           <FunctionImport Name="sp_ListarProductosStore" ReturnType="Collection(mockupModel.sp_ListarProductosStore_Result)" />
@@ -235,12 +327,13 @@
             <Parameter Name="correo" Mode="In" Type="String" />
             <Parameter Name="contrasenia" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_ListarProductoDashboard" ReturnType="Collection(mockupModel.sp_ListarProductoDashboard_Result)" />
         </EntityContainer>
         <ComplexType Name="sp_ListarProductos_Result">
           <Property Type="Int32" Name="idProducto" Nullable="false" />
           <Property Type="String" Name="titulo" Nullable="false" MaxLength="250" />
           <Property Type="Decimal" Name="precio" Nullable="false" Precision="10" Scale="2" />
-          <Property Type="Boolean" Name="estado" Nullable="true" />
+          <Property Type="Boolean" Name="estado" Nullable="false" />
           <Property Type="Int32" Name="descuento" Nullable="true" />
           <Property Type="Decimal" Name="precioDescuento" Nullable="true" Precision="10" Scale="2" />
         </ComplexType>
@@ -260,6 +353,19 @@
           <Property Type="Int32" Name="idRol" Nullable="false" />
           <Property Type="String" Name="nombreRol" Nullable="false" MaxLength="100" />
         </ComplexType>
+        <ComplexType Name="sp_ListarProductoDashboard_Result">
+          <Property Type="Int32" Name="idProducto" Nullable="false" />
+          <Property Type="String" Name="titulo" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="precio" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Boolean" Name="estado" Nullable="false" />
+          <Property Type="Int32" Name="descuento" Nullable="true" />
+          <Property Type="Decimal" Name="precioDescuento" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="idContenido" Nullable="false" />
+          <Property Type="String" Name="idCloudinary" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="urlContenido" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="tipo" Nullable="true" />
+          <Property Type="Int32" Name="idProducto1" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -277,14 +383,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Cupon">
-            <EntityTypeMapping TypeName="mockupModel.Cupon">
-              <MappingFragment StoreEntitySet="Cupon">
-                <ScalarProperty Name="idCupon" ColumnName="idCupon" />
-                <ScalarProperty Name="valorDescuento" ColumnName="valorDescuento" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="estadoCupon" ColumnName="estadoCupon" />
+          <EntitySetMapping Name="DetalleVenta">
+            <EntityTypeMapping TypeName="mockupModel.DetalleVenta">
+              <MappingFragment StoreEntitySet="DetalleVenta">
+                <ScalarProperty Name="idDetalleVenta" ColumnName="idDetalleVenta" />
+                <ScalarProperty Name="idVenta" ColumnName="idVenta" />
                 <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -316,7 +421,20 @@
                 <ScalarProperty Name="apellidos" ColumnName="apellidos" />
                 <ScalarProperty Name="correo" ColumnName="correo" />
                 <ScalarProperty Name="contrasenia" ColumnName="contrasenia" />
+                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
                 <ScalarProperty Name="idRol" ColumnName="idRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Venta">
+            <EntityTypeMapping TypeName="mockupModel.Venta">
+              <MappingFragment StoreEntitySet="Venta">
+                <ScalarProperty Name="idVenta" ColumnName="idVenta" />
+                <ScalarProperty Name="totalVenta" ColumnName="totalVenta" />
+                <ScalarProperty Name="fechaCompra" ColumnName="fechaCompra" />
+                <ScalarProperty Name="comisionPaypal" ColumnName="comisionPaypal" />
+                <ScalarProperty Name="idTransaccionPaypal" ColumnName="idTransaccionPaypal" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -353,6 +471,23 @@
                 <ScalarProperty Name="correo" ColumnName="correo" />
                 <ScalarProperty Name="idRol" ColumnName="idRol" />
                 <ScalarProperty Name="nombreRol" ColumnName="nombreRol" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ListarProductoDashboard" FunctionName="mockupModel.Store.sp_ListarProductoDashboard">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="mockupModel.sp_ListarProductoDashboard_Result">
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="descuento" ColumnName="descuento" />
+                <ScalarProperty Name="precioDescuento" ColumnName="precioDescuento" />
+                <ScalarProperty Name="idContenido" ColumnName="idContenido" />
+                <ScalarProperty Name="idCloudinary" ColumnName="idCloudinary" />
+                <ScalarProperty Name="urlContenido" ColumnName="urlContenido" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="idProducto1" ColumnName="idProducto1" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

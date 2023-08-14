@@ -71,36 +71,36 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Resumen</div>
-
-                        <a class="nav-link" href="@Url.Action("Usuarios","Home")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Usuarios
-                        </a>
-                        <a class="nav-link" href="@Url.Action("Usuarios","Home")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Ventas
-                        </a>
-                        <a class="nav-link" href="@Url.Action("Usuarios","Home")">
+                        <div class="sb-sidenav-menu-heading">Contenido</div>
+                        <a class="nav-link" href="@Url.Action("misMockups","dashboard")">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Mis mockups
                         </a>
 
-                        <div class="sb-sidenav-menu-heading">Mantenimiento</div>
 
+                        <div class="sb-sidenav-menu-heading">Mantenimiento</div>
                         <a class="nav-link" href="@Url.Action("mockups","dashboard")">
                             <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
                             Mockups
                         </a>
-                        <a class="nav-link" href="@Url.Action("Producto","Mantenedor")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
-                            Cupones
+
+
+                        <div class="sb-sidenav-menu-heading">Reportes</div>
+                        <a class="nav-link" href="@Url.Action("usuarios","dashboard")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            Usuarios
                         </a>
+                        <a class="nav-link" href="@Url.Action("ventas","dashboard")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            Ventas
+                        </a>
+                        
+
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    Start Bootstrap
+                    <div class="small">Logeado:</div>
+                    @texto
                 </div>
             </nav>
         </div>
