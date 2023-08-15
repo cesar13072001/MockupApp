@@ -17,14 +17,14 @@
 <div class="col-md-12 col-lg-7 d-flex align-items-center">
     <div class="card-body p-4 p-lg-5 text-black">
 
-        <form class="needs-validation" novalidate action="javascript:mandarFormulario()">
+        <form class="needs-validation" id="formularioRegistro" novalidate action="javascript:mandarFormulario()">
 
             <div class="d-flex align-items-center mb-3 pb-1">
-                <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                <span class="h1 fw-bold mb-0">Logo</span>
+               
+                <span class="h1 fw-bold mb-0"><i><img src="~/favicon.ico" /></i> Child Story</span>
             </div>
 
-            <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+            <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Registrate para comprar</h5>
             <div class="row">
                 <div class="form-outline mb-3 col-12 col-md-6">
                     <label class="form-label" for="txtNombres">Nombre</label>
@@ -95,8 +95,6 @@
                 contrasenia: $("#txtContrasenia").val(),
             }
 
-            console.log({ usuario });
-
              jQuery.ajax({
                 //Establecemos el url como el JSONResult de nuestro
                 //Controlador
@@ -108,11 +106,25 @@
                 dataType: "json",
                 //Indicamos el tipo de contenido asi como el charset
                 contentType: "application/json; charset=utf-8",
-                //acciones a tomar cuando la data es traida de manera
-                //correcta
+                //acciones a tomar cuando la data es traida de manera correcta
                 success: function (data) {
+                   
 
                     document.getElementById("mensajeAlerta").innerHTML = "Cuenta creada correctamente";
+                    $("#liveToast").show();
+
+                    
+
+                    setTimeout(() => {
+                        $("#liveToast").hide();                      
+                        
+                        window.location.replace("/login");
+                        
+                    }, 1000);
+
+                },
+                error: function (error) {
+                    document.getElementById("mensajeAlerta").innerHTML = "El correo ya se encuentra registrado";
                     $("#liveToast").show();
 
 
@@ -120,16 +132,7 @@
                     setTimeout(() => {
                         $("#liveToast").hide();
 
-                        location.href = "/login";
-                        $("#txtNombres").val("");
-                        $("#txtApellidos").val("");
-                        $("#txtCorreo").val("");
-                        $("#txtContrasenia").val("");
                     }, 3000);
-
-                },
-                error: function (error) {
-                    console.log(error);
                 },
                 beforeSend: function () {
 
@@ -140,7 +143,6 @@
 
 
         function verificarCorreo() {
-            console.log("enbtro a verificar")
 
              jQuery.ajax({
                 //Establecemos el url como el JSONResult de nuestro
@@ -153,8 +155,7 @@
                 dataType: "json",
                 //Indicamos el tipo de contenido asi como el charset
                 contentType: "application/json; charset=utf-8",
-                //acciones a tomar cuando la data es traida de manera
-                //correcta
+                //acciones a tomar cuando la data es traida de manera correcta
                 success: function (data) {
 
                    
@@ -181,14 +182,6 @@
 
 
 
-        function mostra() {
-            $("#liveToast").show()
-            //$("#liveToast").delay() = 5000
-            setTimeout(() => {
-                $("#liveToast").hide()
-            }, 5000);
-
-        }
 
 
 
@@ -205,15 +198,7 @@
                     if (!form.checkValidity()) {
                         event.preventDefault()
                         event.stopPropagation()
-
-
-
                     }
-                    else {
-                        forms.classList.remove('was-validated');
-                    }
-
-
 
                     form.classList.add('was-validated')
                 }, false)

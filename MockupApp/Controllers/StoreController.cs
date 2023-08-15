@@ -20,6 +20,8 @@ namespace MockupApp.Controllers
         readonly mockupEntities db = new mockupEntities();
         // GET: Store
         
+        //Actionresult que nos manda a la pagina de inicio
+        //listando los productos disponibles
         public ActionResult Index()
         {
             ViewBag.productos = new MockupDAO().listarProductosStore();
@@ -27,12 +29,21 @@ namespace MockupApp.Controllers
             return View();
         }
 
+
+        //ActionResult para cerrar sesión
+        public ActionResult Salir()
+        {
+            Session["usuario"] = null;
+            return RedirectToAction("", "Store");
+        }
+
+
+        //ActionResult para guardar y mostrar la compra realizada por paypal
         [FilterSession(2)]
         public async Task<ActionResult> Success()
         {
             string Bearertoken = await obtenerToken();
             string token = Request.QueryString["token"];
-            bool status = false;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://api-m.sandbox.paypal.com");
@@ -48,44 +59,29 @@ namespace MockupApp.Controllers
                 {
                     response.Dispose();
                    
-                    HttpResponseMessage responseDetails = await client.GetAsync($"/v2/checkout/orders/{token}");
-                    
-
+                    HttpResponseMessage responseDetails = await client.GetAsync($"/v2/checkout/orders/{token}");                 
                     var jsonRespuesta = responseDetails.Content.ReadAsStringAsync().Result;
-
                     PaypalOrderCapture paypal = JsonConvert.DeserializeObject<PaypalOrderCapture>(jsonRespuesta);
-
 
                     DateTime fecha = DateTime.Parse(paypal.UpdateTime.ToString());
                     
 
                     ViewBag.fecha = fecha.ToString();
-                    ViewBag.respuesta = paypal;
-                    ViewBag.resultado = jsonRespuesta;
                     ViewBag.productos = paypal.PurchaseUnits[0].Items;
                     ViewBag.id = paypal.Id;
                     ViewBag.total = paypal.PurchaseUnits[0].Amount.Value;
-
-
                 }
 
 
-                status = response.IsSuccessStatusCode;
 
-                if (status && statuscode == "Created")
+                if (statuscode == "Created")
                 {
                     var jsonRespuesta = response.Content.ReadAsStringAsync().Result;
-
                     PaypalOrderCapture paypal = JsonConvert.DeserializeObject<PaypalOrderCapture>(jsonRespuesta);
 
-                    
                     DateTime fecha = DateTime.Parse(paypal.UpdateTime.ToString());
-                    
-
-
-                    ViewBag.respuesta = paypal;
-                    ViewBag.fecha = fecha.ToString();
-                    ViewBag.resultado = jsonRespuesta;
+                                       
+                    ViewBag.fecha = fecha.ToString();                   
                     ViewBag.productos = paypal.PurchaseUnits[0].Items;
                     ViewBag.id = paypal.Id;
                     ViewBag.total = paypal.PurchaseUnits[0].Amount.Value;
@@ -118,13 +114,9 @@ namespace MockupApp.Controllers
 
 
       
-        public ActionResult Salir()
-        {
-            Session["usuario"] = null;
-            return RedirectToAction("", "Store");
-        }
+       
 
-
+        //JsonResult para agregar Productos al carrito 
         [HttpPost]
         public JsonResult agregarCarrito(int id)
         {
@@ -153,6 +145,7 @@ namespace MockupApp.Controllers
         }
 
 
+        //JsonResult para obtener un listado de productos del carrito
         public JsonResult obtenerCarrito()
         {
             List<sp_ListarProductosStore_Result> carrito = new List<sp_ListarProductosStore_Result>();
@@ -164,7 +157,7 @@ namespace MockupApp.Controllers
         }
 
 
-
+        //Metodo que nos devuelve la ubicacion de un producto en el carrito
         public int capturarUbicacionProducto(int id)
         {
             List<sp_ListarProductosStore_Result> compras = (List<sp_ListarProductosStore_Result>)Session["carrito"];
@@ -176,6 +169,7 @@ namespace MockupApp.Controllers
         }
 
 
+        //JsonResult que elimina un producto del carrito
         public JsonResult EliminarProducto(int id)
         {
             List<sp_ListarProductosStore_Result> compras = (List<sp_ListarProductosStore_Result>)Session["carrito"];
@@ -184,8 +178,7 @@ namespace MockupApp.Controllers
         }
 
 
-
-   
+        //Metodo que nos devuelve el total en el carrito
         public decimal precioFinal()
         {
             var lista = (List<sp_ListarProductosStore_Result>)Session["carrito"];
@@ -193,13 +186,13 @@ namespace MockupApp.Controllers
             foreach (var item in lista)
             {
                 precio += (item.precioDescuento != 0) ? (decimal)item.precioDescuento : item.precio;
-
             }
             return precio;
 
         }
 
 
+        //Metdodo que devuelve una lista de la sesion de carrito
         public List<Item> obtenerProductosCarrito()
         {
             var lista =  (List<sp_ListarProductosStore_Result>)Session["carrito"];
@@ -228,6 +221,7 @@ namespace MockupApp.Controllers
         }
 
 
+        //Metodo que nos devuelve el bearer token solicitado a paypal
         [HttpPost]
         public async Task<string> obtenerToken()
         {
@@ -247,13 +241,9 @@ namespace MockupApp.Controllers
                 };
 
 
-
-
                 HttpResponseMessage response = await client.PostAsync("https://api-m.sandbox.paypal.com/v1/oauth2/token",
                     new FormUrlEncodedContent(keyValueParis));
-
                 var respuesta = response.Content.ReadAsStringAsync().Result;
-
                 authorization = JsonConvert.DeserializeObject<PaypalAuthorizationResponse>(respuesta);
             }
             return authorization.AccessToken;
@@ -262,7 +252,7 @@ namespace MockupApp.Controllers
         }
 
 
-
+        //JsonResult que crea la orden para hacer la compra en paypal
         [HttpPost]       
         public async Task<JsonResult> Paypal()
         {
@@ -280,9 +270,7 @@ namespace MockupApp.Controllers
 
                 decimal precio = precioFinal();
                 string token = await obtenerToken();
-
                 var url = Request.Url.Scheme + "://" + Request.Url.Authority;
-
                 var successUrl = url + "/store/success";
                 var cancelUrl = url + "/?cancel=true";
 
@@ -292,7 +280,6 @@ namespace MockupApp.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri("https://api-m.sandbox.paypal.com");
-
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
 
@@ -312,7 +299,6 @@ namespace MockupApp.Controllers
                                         }
                                     }
                                 },
-
                             }
                         },
                         ApplicationContext = new ApplicationContext()
@@ -324,21 +310,17 @@ namespace MockupApp.Controllers
                         }
                     };
 
-
                     var json = JsonConvert.SerializeObject(orden);
                     var data = new StringContent(json, Encoding.UTF8, "application/json");
                     HttpResponseMessage response = await client.PostAsync("/v2/checkout/orders", data);
 
                     status = response.IsSuccessStatusCode;
-
                     if (status)
                     {
-                        respuesta = JsonConvert.DeserializeObject <PaypalOrderResponse>(response.Content.ReadAsStringAsync().Result);
+                        respuesta = JsonConvert.DeserializeObject<PaypalOrderResponse>(response.Content.ReadAsStringAsync().Result);
                     }
-
                 }
             }
-
             return Json(new { status = status, respuesta = respuesta, cantidad = cantidad ,mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 
         }

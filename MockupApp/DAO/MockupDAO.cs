@@ -13,8 +13,7 @@ namespace MockupApp.DAO
         readonly mockupEntities db = new mockupEntities();
 
         public Producto guardarMockup(List<Contenido> contenidos, Producto producto)
-        {
-            
+        {          
             try
             {
                 producto.Contenido = (from contenido in contenidos
@@ -25,15 +24,13 @@ namespace MockupApp.DAO
                                           tipo = contenido.tipo,
                                       }).ToList();
                 db.Producto.Add(producto);
-                db.SaveChanges();
-             
+                db.SaveChanges();          
             }
 
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                producto = null;
-                
+                producto = null;                
             }
             return producto;
         }
@@ -44,7 +41,6 @@ namespace MockupApp.DAO
             try
             {
                 var product = db.Producto.Find(producto.idProducto);
-
                 if (producto.titulo != product.titulo) product.titulo = producto.titulo;
                 if (producto.precio != product.precio) product.precio = producto.precio;
                 if (producto.descuento != product.descuento) product.descuento = producto.descuento;
@@ -66,9 +62,7 @@ namespace MockupApp.DAO
                         foto.idCloudinary = contenidos[1].idCloudinary;
                         foto.urlContenido = contenidos[1].urlContenido;
                     }
-
                 }
-
                 db.SaveChanges();
 
             }
@@ -77,7 +71,6 @@ namespace MockupApp.DAO
             {
                 Console.WriteLine(ex.ToString());
                 producto = null;
-
             }
             return producto;
         }
@@ -92,7 +85,6 @@ namespace MockupApp.DAO
             try
             {
                 listado = db.sp_ListarProductos().ToList();
-
             }catch(Exception ex) {
                 Console.WriteLine(ex.Message);
             }
@@ -138,15 +130,12 @@ namespace MockupApp.DAO
         public IEnumerable<Producto> listarMockupPorId(int id)
         {
             List<Producto> productos = new List<Producto>();
-
             try
             {
                 var lista = db.Producto.Where(x => x.idProducto == id).ToList();
                 foreach (var item in lista)
                 {
-                    var contenido = new List<Contenido>();
-                    
-
+                    var contenido = new List<Contenido>();                   
                     foreach (var item2 in item.Contenido)
                     {
                         contenido.Add(new Contenido
@@ -158,8 +147,7 @@ namespace MockupApp.DAO
                             urlContenido = item2.urlContenido,
                         });
                     }
-
-                   
+                  
                     productos.Add(new Producto
                     {
                         idProducto = item.idProducto,
@@ -168,8 +156,7 @@ namespace MockupApp.DAO
                         estado = item.estado,
                         descuento = item.descuento,
                         precioDescuento = item.precioDescuento,
-                        Contenido = contenido,
-              
+                        Contenido = contenido,              
                     });
                 }
 

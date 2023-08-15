@@ -2,36 +2,21 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Dashboard.cshtml";
+    var texto = "";
+    var sesion = (MockupApp.Models.sp_LoginUsuario_Result)Session["usuario"];
+    if (sesion != null)
+    {
+        texto = sesion.nombres + " " + sesion.apellidos;
+
+    }
 }
 
 
-<div aria-live="polite" aria-atomic="true" class="position-relative">
-    <!-- Position it: -->
-    <!-- - `.toast-container` for spacing between toasts -->
-    <!-- - `top-0` & `end-0` to position the toasts in the upper right corner -->
-    <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
-    <div class="toast-container top-0 end-0 p-2">
-
-        <!-- Then put toasts within -->
-        <div class="toast" role="alert" id="liveToast" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <img src="..." class="rounded me-2" alt="...">
-                <strong class="me-auto">Bootstrap</strong>
-                <small class="text-body-secondary">just now</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                See? Just like this.
-            </div>
-        </div>
-
-
-    </div>
-</div>
 
 
 
-<h2>Index</h2>
+<br />
+<h2>Bievenido a tu Dashboard, @texto</h2>
 
 
 

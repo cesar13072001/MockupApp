@@ -73,9 +73,10 @@ insert into Rol values
 (2, 'cliente')
 go
 
+--Password: 12345678
 insert into Usuario values
-('Cesar','Aguilar','cesar1307@gmail.com','12345678',default,1),
-('Ronald','Aguilar','ronald2004@gmail.com','12345678',default,1)
+('Cesar','Aguilar','cesar@gmail.com','73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=',default,1),
+('Ronald','Aguilar','ronald@gmail.com','73l8gRjwLftklgfdXT+MdiMEjJwGPVMsyVxe16iYpk8=',default,1)
 go
 
 
@@ -117,3 +118,5 @@ where p.estado = 1 and c.tipo = 1
 end
 go
 
+
+select * from Usuario

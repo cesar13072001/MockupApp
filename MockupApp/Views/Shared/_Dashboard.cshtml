@@ -17,7 +17,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title Dashboard</title>
+    <title>Dashboard</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
@@ -41,7 +41,7 @@
 
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="@Url.Action("","dashboard")">Mi tienda</a>
+        <a class="navbar-brand ps-3" href="@Url.Action("","dashboard")"><i><img height="40" src="~/favicon.ico" /></i> Child Story</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
 
@@ -77,24 +77,25 @@
                             Mis mockups
                         </a>
 
-
+                        @if (sesion.idRol == 1)
+                        {
                         <div class="sb-sidenav-menu-heading">Mantenimiento</div>
-                        <a class="nav-link" href="@Url.Action("mockups","dashboard")">
+                        <a class="nav-link" href="@Url.Action("mockups", "dashboard")">
                             <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
                             Mockups
                         </a>
 
 
                         <div class="sb-sidenav-menu-heading">Reportes</div>
-                        <a class="nav-link" href="@Url.Action("usuarios","dashboard")">
+                        <a class="nav-link" href="@Url.Action("usuarios", "dashboard")">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Usuarios
                         </a>
-                        <a class="nav-link" href="@Url.Action("ventas","dashboard")">
+                        <a class="nav-link" href="@Url.Action("ventas", "dashboard")">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Ventas
                         </a>
-                        
+                        }
 
                     </div>
                 </div>

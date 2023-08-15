@@ -22,6 +22,8 @@ namespace MockupApp
                            //"~/Scripts/DataTables/dataTables.responsive.js",
                            "~/Scripts/script.js"));
 
+
+
                 bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                             "~/Scripts/jquery.validate*"));
                 // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información sobre los formularios.  De esta manera estará
@@ -37,8 +39,7 @@ namespace MockupApp
 
                 bundles.Add(new StyleBundle("~/Content/css").Include(
                           "~/Content/bootstrap.css",
-                          //"~/Content/DataTables/css/jquery.dataTables.css",
-                          //"~/Content/DataTables/css/responsive.dataTables.css",
+                          
                           "~/Content/Site.css"));
             }
     }

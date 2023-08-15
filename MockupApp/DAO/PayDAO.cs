@@ -10,7 +10,6 @@ namespace MockupApp.DAO
     {
         readonly mockupEntities db = new mockupEntities();
 
-
         public void guardarPago(Venta venta,List<DetalleVenta> detalles)
         {
             try
@@ -18,14 +17,11 @@ namespace MockupApp.DAO
                 venta.DetalleVenta = detalles.ToList();
                 db.Venta.Add(venta);
                 db.SaveChanges();
-
             }
 
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-                
-
+                Console.WriteLine(ex.ToString());               
             }
         }
 

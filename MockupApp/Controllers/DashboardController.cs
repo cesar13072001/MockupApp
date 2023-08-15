@@ -17,21 +17,22 @@ namespace MockupApp.Controllers
     public class DashboardController : Controller
     {
 
+        //ActionResult que nos crea la vista de la pagina principal del dashboard
         [FilterSession(2)]
-        // GET: Dashboard
         public ActionResult Index()
         {
             return View();
         }
 
-
+        //ActionResult que nos crea la vista de la pagina crud de mockups
         [FilterSession(1)]
         public ActionResult Mockups()
         {
             return View();
         }
 
-
+        //ActionResult que nos crea la vista de la pagina de mockups comprados
+        [FilterSession(2)]
         public ActionResult Mismockups()
         {
             var ventas = new PayDAO().obtenerComprasUsuario((Session["usuario"] as sp_LoginUsuario_Result).idUsuario);
@@ -40,6 +41,8 @@ namespace MockupApp.Controllers
         }
 
 
+
+        //JsonResult para devolver el listado de mockups de la BD
         [FilterSession(1)]
         public JsonResult listarMockup()
         {
@@ -48,7 +51,7 @@ namespace MockupApp.Controllers
         }
 
 
-
+        //JsonResult que devuelve un mockup buscado por id
         [HttpPost]
         [FilterSession(1)]
         public JsonResult buscarMockup(int id) {
@@ -56,6 +59,8 @@ namespace MockupApp.Controllers
             return Json( producto,JsonRequestBehavior.AllowGet);
         }
 
+
+        //JsonResult que actualiza el estado de activo de un mockup
         [HttpPost]
         [FilterSession(1)]
         public JsonResult actualizarEstadoMockup(int id, bool estado)
@@ -64,6 +69,7 @@ namespace MockupApp.Controllers
             return Json(new { resultado }, JsonRequestBehavior.AllowGet);
         }
 
+        //JsonResult que elimina un mockup
         [HttpPost]
         [FilterSession(1)]
         public JsonResult eliminarMockup(int id)
@@ -73,6 +79,7 @@ namespace MockupApp.Controllers
         }
 
 
+        //JsonResult que guarda un mockup en la BD
         [HttpPost]
         [FilterSession(1)]
         public JsonResult guardarMockup(string titulo, string precio, string descuento,
@@ -110,7 +117,7 @@ namespace MockupApp.Controllers
         }
 
 
-
+        //JsonResult que edita un mockup y lo guarda en la BD
         [HttpPost]
         [FilterSession(1)]
         public JsonResult editarMockup(string idProducto, string titulo, string precio, string descuento,

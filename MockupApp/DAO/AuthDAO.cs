@@ -3,6 +3,8 @@ using MockupApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Helpers;
 
@@ -20,14 +22,12 @@ namespace MockupApp.DAO
             {
                 db.Usuario.Add(usu);
                 resultado = db.SaveChanges();
-
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
                 resultado = 0;
             }
-            
             return resultado;
 
         }
@@ -52,19 +52,18 @@ namespace MockupApp.DAO
 
         public sp_LoginUsuario_Result logeo(string email, string password)
         {
-            sp_LoginUsuario_Result usuario = new sp_LoginUsuario_Result() ;
-           
-
+            sp_LoginUsuario_Result usuario = new sp_LoginUsuario_Result();          
             try
-            {
-                var consulta = db.sp_LoginUsuario(email, password).ToList();
+            {   
+                byte[] hash = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(password));             
+                string newPassword = Convert.ToBase64String(hash);
+
+                var consulta = db.sp_LoginUsuario(email, newPassword).ToList();
                 if (consulta.Count() == 0) return usuario;
                 foreach (var con in consulta)
                 {
                     usuario = con;
-
                 }
-
             }
             catch (Exception ex)
             {
