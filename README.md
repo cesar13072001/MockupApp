@@ -10,79 +10,62 @@ EL siguiente proyecto fue realizado para la ventas de mockup de manera online in
 
 Para implementar este proyecto siga los siguientes pasos:
 
-```bash
-  1. Descarge el proyecto ASP.NET MVC y abralo.
-```
-
-```bash
+  1. Descarge el proyecto ASP.NET MVC y abralo.  
+  
   2. Ejecute el script base de datos adjunto en MS SQL Server: 
-```
-- https://github.com/cesar13072001/MockupApp/blob/main/MockupApp/Sql/Mockup.sql
-
 ```bash
+  https://github.com/cesar13072001/MockupApp/blob/main/MockupApp/Sql/Mockup.sql
+```
   3. Creese una cuenta en Cloudinary para obtener sus credenciales de la nube:
-```
-- https://cloudinary.com/
-
 ```bash
+  https://cloudinary.com/
+```
   4. Obtenga sus credenciales en el siguiente apartado:
-```
-- https://console.cloudinary.com/console
-
 ```bash
+  https://console.cloudinary.com/console
+```
   5. Agrege las credenciales de Cloudinary al archivo Web.Config del proyecto.
-```
-
-```bash
   6. Creese una cuenta en Paypal para luego crearse una cuenta en Paypal Developer:
-```
-- https://developer.paypal.com/home
-
 ```bash
-  Si no les deja entrar al dashoboard de Paypal deberan verificar una tarjeta de 
-  crédito o débito en su cuenta de Paypal.
+  https://developer.paypal.com/home
 ```
+  (Si no les deja entrar al dashoboard de Paypal deberan verificar una tarjeta de 
+  crédito o débito en su cuenta de Paypal)
 
 
-```bash
+
   7. Crear una nueva App en Paypal developer:
-```
-- https://developer.paypal.com/dashboard/applications/sandbox
-- Type: Merchant
-
 
 ```bash
+  https://developer.paypal.com/dashboard/applications/sandbox
+```
+  - Type: Merchant
+
   8. Obtener las el Client ID y el Secret Key de la app.
-```
 
-```bash
   9. Agregar las credenciales de la tienda al archivo Web.Config. 
-```
 
-```bash
   10. Obtenga las cuentas de prueba de Paypal developer en el siguiente link:
-```
-- https://developer.paypal.com/dashboard/accounts
 
 ```bash
-  Donde el correo con @business.example.com es para acceder a la tienda creada 
+  https://developer.paypal.com/dashboard/accounts
+```
+
+  (Donde el correo con @business.example.com es para acceder a la tienda creada 
   anteriormente en Paypal para ver las ventas realizadas y el correo 
-  @personal.example.com es para hacer pruebas de compras.
-```
+  @personal.example.com es para hacer pruebas de compras)
 
-```bash
+
   11. Logueese en la aplicación con los siguientes datos de administrador:
-```
+
  - Correo: cesar@gmail.com
  - Password: 12345678
 
-```bash
   12. Agrege productos para hacer la prueba de compras.
-```
-```bash
+
   13. Cree una cuenta con el registro de usuario de la aplicación y 
   realize una compra.
-```
+
 ## 🛠 Herrmientas
 - ASP.NET MVC
 - ADO.NET
