@@ -1,8 +1,8 @@
-create database mockup
+/*create database mockup
 go
 
 use mockup
-go
+go*/
 
 
 create table Rol(
@@ -119,4 +119,15 @@ end
 go
 
 
-select * from Usuario
+--procedimiento almacenado para listar reportes de la tienda
+create or alter proc sp_ReportesVenta
+as
+begin
+select count(*) as cantidad,
+SUM(totalVenta) as total,
+SUM(comisionPaypal) as paypal,
+(SUM(totalVenta) - SUM(comisionPaypal)) as ganancia
+from Venta
+end
+go
+

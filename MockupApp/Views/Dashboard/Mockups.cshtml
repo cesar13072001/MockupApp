@@ -42,7 +42,7 @@
 
                         <div class="mb-3 col-6">
                             <label for="txtPrecio" class="form-label">Precio</label>
-                            <input type="number" class="form-control" id="txtPrecio" required>
+                            <input type="number" class="form-control" min="1" step="0.01" id="txtPrecio" required>
                         </div>
 
                         <div class="mb-3 col-6">
@@ -54,7 +54,7 @@
 
 
                         <div class="mb-4 mt-2 col-10">
-                            <label for="formPSD" class="form-label">Archivo PSD</label>
+                            <label for="formPSD" class="form-label">Archivo</label>
                             <input class="form-control" type="file" id="formPSD" required>
                         </div>
 
@@ -123,6 +123,7 @@
         var tabledata;
         var producto;
         var fila;
+        var resultadoEliminar;
 
         llenarTabla();
 
@@ -247,6 +248,8 @@
                 },
                 error: function (error) {
                     console.log(error);
+                    mostrarAlerta("Ocurrio un error al guardar");
+                    $("#guardando").attr('hidden', true);
                 },
                 beforeSend: function (data) {
                     $("#guardando").removeAttr('hidden');
@@ -285,6 +288,8 @@
                 },
                 error: function (error) {
                     console.log(error);
+                    mostrarAlerta("Ocurrio un error al editar");
+                    $("#guardando").attr('hidden', true);
                 },
                 beforeSend: function (data) {
                     $("#guardando").removeAttr('hidden');
@@ -370,11 +375,15 @@
                 data: JSON.stringify({ id: id}),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
+                async: false,
                 success: function (data) {
                     console.log(data);
                 },
-                error: function (error) {
+                error: function (error) {               
                     console.log(error);
+                    resultadoEliminar = error.responseJSON.resultado;
+                  
+                   
                 },
                 beforeSend: function () {
 
@@ -392,6 +401,8 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     console.log(data);
+                    var salida = estado == true ? "activado" : "desactivado";
+                    mostrarAlerta(`Producto ${salida} correctamente`);
                 },
                 error: function (error) {
                     console.log(error);
@@ -465,12 +476,24 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     eliminarMockup(idProducto);
-                    tabledata.row(filaSeleccionada).remove().draw(false);
-                    swalWithBootstrapButtons.fire(
-                        'Eliminado',
-                        'El mockup fue eliminado',
-                        'success',
-                    )
+                    console.log(resultadoEliminar);
+                    if (resultadoEliminar != 0) {
+                        tabledata.row(filaSeleccionada).remove().draw(false);
+                        swalWithBootstrapButtons.fire(
+                            'Eliminado',
+                            'El mockup fue eliminado',
+                            'success',
+                        )
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrio un error al eliminar',
+
+                        });
+                    }
+
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
                 ) {

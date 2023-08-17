@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -21,6 +22,7 @@ namespace MockupApp.Controllers
         [FilterSession(2)]
         public ActionResult Index()
         {
+            ViewBag.reporte = new PayDAO().obtenerReporteVenta();
             return View();
         }
 
@@ -35,9 +37,34 @@ namespace MockupApp.Controllers
         [FilterSession(2)]
         public ActionResult Mismockups()
         {
-            var ventas = new PayDAO().obtenerComprasUsuario((Session["usuario"] as sp_LoginUsuario_Result).idUsuario);
+            List<Venta> ventas = new List<Venta>();
+           
+            ventas = new PayDAO().obtenerComprasUsuario((Session["usuario"] as sp_LoginUsuario_Result).idUsuario);
+           
             ViewBag.ventas = ventas;   
             return View();
+        }
+
+        [FilterSession(1)]
+        public ActionResult Ventas(DateTime? inicio = null, DateTime? fin = null)
+        {
+            List<Venta> ventas = new List<Venta>();
+            ventas = new PayDAO().obtenerComprasTotales(inicio, fin);
+            ViewBag.ventas = ventas;
+            return View();
+        }
+
+        [FilterSession(1)]
+        public ActionResult Usuarios()
+        {
+            return View();
+        }
+
+        [FilterSession(1)]
+        public JsonResult listarUsuario()
+        {
+            var lista = new AuthDAO().listarUsuarios();
+            return Json(new { data = lista} ,JsonRequestBehavior.AllowGet);
         }
 
 
@@ -75,6 +102,8 @@ namespace MockupApp.Controllers
         public JsonResult eliminarMockup(int id)
         {
             int resultado = new MockupDAO().eliminarMockup(id);
+            if(resultado == 0)
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
             return Json(new { resultado }, JsonRequestBehavior.AllowGet);
         }
 
@@ -112,6 +141,8 @@ namespace MockupApp.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(JsonRequestBehavior.AllowGet);
             }
             return Json(producto,JsonRequestBehavior.AllowGet);
         }
@@ -160,10 +191,15 @@ namespace MockupApp.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(JsonRequestBehavior.AllowGet);
             }
             return Json(producto, JsonRequestBehavior.AllowGet);
         }
 
 
+
+
+       
     }
 }

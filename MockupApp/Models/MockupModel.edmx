@@ -132,6 +132,7 @@
           <Parameter Name="correo" Type="varchar" Mode="In" />
           <Parameter Name="contrasenia" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_ReportesVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="mockupModelStoreContainer">
           <EntitySet Name="Contenido" EntityType="Self.Contenido" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleVenta" EntityType="Self.DetalleVenta" Schema="dbo" store:Type="Tables" />
@@ -328,6 +329,7 @@
             <Parameter Name="contrasenia" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_ListarProductoDashboard" ReturnType="Collection(mockupModel.sp_ListarProductoDashboard_Result)" />
+          <FunctionImport Name="sp_ReportesVenta" ReturnType="Collection(mockupModel.sp_ReportesVenta_Result)" />
         </EntityContainer>
         <ComplexType Name="sp_ListarProductos_Result">
           <Property Type="Int32" Name="idProducto" Nullable="false" />
@@ -365,6 +367,12 @@
           <Property Type="String" Name="urlContenido" Nullable="true" MaxLength="500" />
           <Property Type="Boolean" Name="tipo" Nullable="true" />
           <Property Type="Int32" Name="idProducto1" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_ReportesVenta_Result">
+          <Property Type="Int32" Name="cantidad" Nullable="true" />
+          <Property Type="Decimal" Name="total" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="paypal" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="ganancia" Nullable="true" Precision="38" Scale="2" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -488,6 +496,16 @@
                 <ScalarProperty Name="urlContenido" ColumnName="urlContenido" />
                 <ScalarProperty Name="tipo" ColumnName="tipo" />
                 <ScalarProperty Name="idProducto1" ColumnName="idProducto1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ReportesVenta" FunctionName="mockupModel.Store.sp_ReportesVenta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="mockupModel.sp_ReportesVenta_Result">
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="paypal" ColumnName="paypal" />
+                <ScalarProperty Name="ganancia" ColumnName="ganancia" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

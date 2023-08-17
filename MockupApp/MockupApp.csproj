@@ -219,6 +219,9 @@
     <Compile Include="Models\Rol.cs">
       <DependentUpon>MockupModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_ListarProductoDashboard_Result.cs">
+      <DependentUpon>MockupModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_ListarProductosStore_Result.cs">
       <DependentUpon>MockupModel.tt</DependentUpon>
     </Compile>
@@ -226,6 +229,9 @@
       <DependentUpon>MockupModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_LoginUsuario_Result.cs">
+      <DependentUpon>MockupModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_ReportesVenta_Result.cs">
       <DependentUpon>MockupModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs">
@@ -588,6 +594,8 @@
     <Content Include="Views\Dashboard\Mockups.cshtml" />
     <Content Include="Views\Store\Success.cshtml" />
     <Content Include="Views\Dashboard\Mismockups.cshtml" />
+    <Content Include="Views\Dashboard\Ventas.cshtml" />
+    <Content Include="Views\Dashboard\Usuarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -73,28 +73,28 @@
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Contenido</div>
                         <a class="nav-link" href="@Url.Action("misMockups","dashboard")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-folder"></i></div>
                             Mis mockups
                         </a>
 
-                        @if (sesion.idRol == 1)
+                        @if (sesion.idRol == 1 && sesion != null)
                         {
-                        <div class="sb-sidenav-menu-heading">Mantenimiento</div>
-                        <a class="nav-link" href="@Url.Action("mockups", "dashboard")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
-                            Mockups
-                        </a>
+                            <div class="sb-sidenav-menu-heading">Mantenimiento</div>
+                            <a class="nav-link" href="@Url.Action("mockups", "dashboard")">
+                                <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
+                                Mockups
+                            </a>
 
 
-                        <div class="sb-sidenav-menu-heading">Reportes</div>
-                        <a class="nav-link" href="@Url.Action("usuarios", "dashboard")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Usuarios
-                        </a>
-                        <a class="nav-link" href="@Url.Action("ventas", "dashboard")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Ventas
-                        </a>
+                            <div class="sb-sidenav-menu-heading">Reportes</div>
+                            <a class="nav-link" href="@Url.Action("usuarios", "dashboard")">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Usuarios
+                            </a>
+                            <a class="nav-link" href="@Url.Action("ventas", "dashboard")">
+                                <div class="sb-nav-link-icon"><i class="fas fa-cart-plus"></i></div>
+                                Ventas
+                            </a>
                         }
 
                     </div>
@@ -141,7 +141,7 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; MockupApp - Cesar Aguilar - 2023</div>
+                        <div class="text-muted">Copyright &copy; MockupApp - CAZ - 2023</div>
                         <div>
                             <a target="_blank" href="https://github.com/cesar13072001">Portafolio</a>
                             &middot;
@@ -158,6 +158,8 @@
 
 
     @Scripts.Render("~/bundles/complementos")
+    <script src="https://kit.fontawesome.com/b073dd6059.js" crossorigin="anonymous"></script>
+
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

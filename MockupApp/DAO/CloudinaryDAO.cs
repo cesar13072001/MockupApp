@@ -20,11 +20,13 @@ namespace MockupApp.DAO
 
         Cloudinary cloudinary = new Cloudinary(account);
    
-        public  string[] guardarContenido(HttpPostedFileBase contenido)
+        public string[] guardarContenido(HttpPostedFileBase contenido)
         {
             string[] respuesta = new string[2];    
             try
-            {            
+            {
+               
+
                 var uploadParams = new ImageUploadParams()
                 {
                     File = new FileDescription(contenido.FileName, contenido.InputStream),  
@@ -42,5 +44,13 @@ namespace MockupApp.DAO
 
             return respuesta;
         }
+
+        public void eliminarContenido(string id)
+        {
+            var delete = new DeletionParams(id);
+            var result = cloudinary.Destroy(delete);
+
+        }
+
     }
 }

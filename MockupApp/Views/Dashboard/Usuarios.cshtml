@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+<br />
+<h2>Usuarios</h2>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+    <li class="breadcrumb-item active">Usuarios</li>
+</ol>
+<br />
+<table class="table" id="usuarios" style="width: 100%;">
+    <thead>
+        <tr style="width:100%">
+            <th>Id</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Correo</th>
+            @*<th>FechaRegistro</th>*@
+            <th>Rol</th>
+            
+        </tr>
+    </thead>
+</table>
+
+@section scripts{
+    <script>
+        var tabledata;
+        //llenarTabla();
+
+
+        consulta();
+        llenarTabla();
+
+        function consulta() {
+             jQuery.ajax({
+                url: '@Url.Action("listarUsuario", "Dashboard")',
+                type: "GET",          
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+           
+                 success: function (data) {
+                     console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                   
+                },
+                beforeSend: function (data) {
+                    
+                }
+            });
+        }
+
+
+
+
+        function llenarTabla() {
+
+            tabledata = new DataTable('#usuarios', {
+                scrollX: true,
+                scrollY: true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+                "ajax": {
+                    url: '@Url.Action("listarUsuario", "Dashboard")',
+                    type: "GET",
+                    dataType: "json",
+                    
+                },
+                "columns": [
+                    { "data": "idUsuario", "width": "125px", },
+                    { "data": "nombres", },
+                    { "data": "apellidos", },
+                    { "data": "correo", "width": "125px", },
+                    /*{
+                        "data": "fechaRegistro", "render":
+                            function (valor) {
+                                var date = new Date(parseInt((valor+"").substring(6)));
+                                
+                                var dia = date.getDay();
+                                var mes = date.getMonth()+1;
+                                var anio = date.getFullYear();
+
+                                console.log(`${dia}/${mes}/${anio}`);
+                                return `${dia}/${mes}/${anio}`;
+                            }
+                    },*/
+                    {
+                        "data": "idRol", "render":
+                            function (valor) {
+                                if (valor == 1) { return '<span class="badge bg-dark">Administrador</span>'; }
+                                else { return '<span class="badge bg-primary">Cliente</span>'; }
+                            }
+                    },
+
+
+
+                ]
+            });
+
+        }
+
+
+
+    </script>
+    
+}

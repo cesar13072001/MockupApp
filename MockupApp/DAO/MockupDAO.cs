@@ -52,6 +52,7 @@ namespace MockupApp.DAO
                     if (contenidos[0] != null)
                     {
                         var psd = db.Contenido.Where(c => c.idProducto == producto.idProducto && c.tipo == false).First();
+                        new CloudinaryDAO().eliminarContenido(psd.idCloudinary);
                         psd.idCloudinary = contenidos[0].idCloudinary;
                         psd.urlContenido = contenidos[0].urlContenido;
                     }
@@ -59,6 +60,7 @@ namespace MockupApp.DAO
                     if (contenidos[1] != null)
                     {
                         var foto = db.Contenido.Where(c => c.idProducto == producto.idProducto && c.tipo == true).First();
+                        new CloudinaryDAO().eliminarContenido(foto.idCloudinary);
                         foto.idCloudinary = contenidos[1].idCloudinary;
                         foto.urlContenido = contenidos[1].urlContenido;
                     }
@@ -118,6 +120,11 @@ namespace MockupApp.DAO
                 db.Contenido.RemoveRange(contenido);
                 db.Producto.Remove(producto);
                 resultado = db.SaveChanges();
+                foreach(var item in contenido)
+                {
+                    new CloudinaryDAO().eliminarContenido(item.idCloudinary);
+                }
+                
             }catch(Exception ex)
             {
                 Console.WriteLine ($"{ex.Message}");

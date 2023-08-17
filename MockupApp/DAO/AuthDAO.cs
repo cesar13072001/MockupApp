@@ -72,5 +72,36 @@ namespace MockupApp.DAO
             return usuario;
         }
 
+        public List<Usuario> listarUsuarios()
+        {
+            List<Usuario> usuarios = new List<Usuario>();
+            try
+            {
+                var lista = db.Usuario.ToList();
+                foreach(var item in lista)
+                {  
+                    
+                    usuarios.Add( new Usuario
+                    {
+                        idUsuario = item.idUsuario,
+                        nombres = item.nombres,
+                        apellidos = item.apellidos,
+                        correo = item.correo,
+                        contrasenia = "",
+                        fechaRegistro = item.fechaRegistro,
+                        idRol = item.idRol,
+                        Rol = null,
+                        Venta = null,
+                        
+                    });
+                }
+
+            }catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return usuarios;
+        }
+
     }
 }
