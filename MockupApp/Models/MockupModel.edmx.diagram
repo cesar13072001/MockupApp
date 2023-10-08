@@ -4,18 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="64f03f13aff640ac97d35ec5f7bcf7f8" Name="Diagram1">
+      <Diagram DiagramId="deb236594fab4e0185edbe5ed6224483" Name="Diagram1">
         <EntityTypeShape EntityType="mockupModel.Contenido" Width="1.5" PointX="7.5" PointY="5.25" IsExpanded="true" />
         <EntityTypeShape EntityType="mockupModel.DetalleVenta" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="mockupModel.Producto" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="mockupModel.Rol" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="mockupModel.Usuario" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="mockupModel.Venta" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="mockupModel.FK__Contenido__idPro__2D27B809" ManuallyRouted="false" />
-        <AssociationConnector Association="mockupModel.FK__DetalleVe__idPro__33D4B598" ManuallyRouted="false" />
-        <AssociationConnector Association="mockupModel.FK__DetalleVe__idVen__32E0915F" ManuallyRouted="false" />
-        <AssociationConnector Association="mockupModel.FK__Usuario__idRol__286302EC" ManuallyRouted="false" />
-        <AssociationConnector Association="mockupModel.FK__Venta__idUsuario__300424B4" ManuallyRouted="false" />
+        <AssociationConnector Association="mockupModel.FK__Contenido__idPro__656C112C" ManuallyRouted="false" />
+        <AssociationConnector Association="mockupModel.FK__DetalleVe__idPro__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="mockupModel.FK__DetalleVe__idVen__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="mockupModel.FK__Usuario__idRol__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="mockupModel.FK__Venta__idUsuario__68487DD7" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

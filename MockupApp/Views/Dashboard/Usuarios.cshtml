@@ -17,7 +17,7 @@
             <th>Nombres</th>
             <th>Apellidos</th>
             <th>Correo</th>
-            @*<th>FechaRegistro</th>*@
+            <th>FechaRegistro</th>
             <th>Rol</th>
             
         </tr>
@@ -27,7 +27,6 @@
 @section scripts{
     <script>
         var tabledata;
-        //llenarTabla();
 
 
         consulta();
@@ -75,19 +74,20 @@
                     { "data": "nombres", },
                     { "data": "apellidos", },
                     { "data": "correo", "width": "125px", },
-                    /*{
+                    {
                         "data": "fechaRegistro", "render":
                             function (valor) {
-                                var date = new Date(parseInt((valor+"").substring(6)));
-                                
-                                var dia = date.getDay();
+                                var date = new Date(parseInt((valor + "").substring(6,19)));
+                                var dia = date.getDate();
                                 var mes = date.getMonth()+1;
                                 var anio = date.getFullYear();
-
-                                console.log(`${dia}/${mes}/${anio}`);
-                                return `${dia}/${mes}/${anio}`;
+                                var hora = date.getHours();
+                                var minuto = date.getMinutes();
+                                var segundos = date.getSeconds();
+                                //console.log(`${dia}/${mes}/${anio} ${hora}:${minuto}:${segundos}`);
+                                return `${dia}/${mes}/${anio} ${hora}:${minuto}:${segundos}`;
                             }
-                    },*/
+                    },
                     {
                         "data": "idRol", "render":
                             function (valor) {

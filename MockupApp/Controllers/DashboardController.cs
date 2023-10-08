@@ -63,7 +63,7 @@ namespace MockupApp.Controllers
         [FilterSession(1)]
         public JsonResult listarUsuario()
         {
-            var lista = new AuthDAO().listarUsuarios();
+            var lista = new AuthDAO().listarUsuarios();          
             return Json(new { data = lista} ,JsonRequestBehavior.AllowGet);
         }
 
@@ -127,15 +127,26 @@ namespace MockupApp.Controllers
                 producto.estado = true;
                 producto.descuento = Int32.Parse(descuento);
                 producto.precioDescuento = (producto.descuento == 0) ? 0 : producto.precio - (producto.precio * producto.descuento / 100);
-                foreach (var file in files)
+                
+
+                string url = new BlobDAO().UploadImage(files[0]);
+                string name = url.Replace(" ", "%20");
+                contenidos.Add(new Contenido
                 {
-                    resultados[Array.IndexOf(files, file)] = new CloudinaryDAO().guardarContenido(file);
-                    contenidos.Add(new Contenido { 
-                        idCloudinary = resultados[Array.IndexOf(files, file)][0],
-                        urlContenido = resultados[Array.IndexOf(files, file)][1],
-                        tipo = Array.IndexOf(files, file) == 0 ? false : true,
-                    });
-                }
+                    idCloudinary = url,
+                    urlContenido = "https://mockupappstorage.blob.core.windows.net/mockups/" + name,
+                    tipo = false
+                });
+
+                var imagen = new CloudinaryDAO().guardarContenido(files[1]);
+                contenidos.Add(new Contenido
+                {
+                    idCloudinary = imagen[0],
+                    urlContenido = imagen[1],
+                    tipo = true
+                });
+
+
                 producto = new MockupDAO().guardarMockup(contenidos, producto);
             } 
             catch (Exception ex)
@@ -169,22 +180,32 @@ namespace MockupApp.Controllers
                 producto.descuento = Int32.Parse(descuento);
                 producto.estado = estado;
                 producto.precioDescuento = (producto.descuento == 0) ? 0 :producto.precio - (producto.precio * producto.descuento / 100);
-                foreach (var file in files)
+                
+                if (files[0] != null)
                 {
-                    if (file != null)
+                    string url = new BlobDAO().UploadImage(files[0]);
+                    string name = url.Replace(" ", "%20");
+                    contenidos.Add(new Contenido
                     {
-                        resultados[Array.IndexOf(files, file)] = new CloudinaryDAO().guardarContenido(file);
-                        contenidos.Add(new Contenido
-                        {
-                            idCloudinary = resultados[Array.IndexOf(files, file)][0],
-                            urlContenido = resultados[Array.IndexOf(files, file)][1],
-                            tipo = Array.IndexOf(files, file) == 0 ? false : true,
-                        });
-                    }
-                    else
+                        idCloudinary = url,
+                        urlContenido = "https://mockupappstorage.blob.core.windows.net/mockups/" + name,
+                        tipo = false
+                    });
+                }
+                if (files[1] != null)
+                {
+
+                    var imagen = new CloudinaryDAO().guardarContenido(files[1]);
+                    contenidos.Add(new Contenido
                     {
-                        contenidos.Add(null);
-                    }
+                        idCloudinary = imagen[0],
+                        urlContenido = imagen[1],
+                        tipo = true
+                    });
+                }
+                else
+                {
+                    contenidos.Add(null);
                 }
                 producto = new MockupDAO().editarProducto(producto, contenidos);
             }

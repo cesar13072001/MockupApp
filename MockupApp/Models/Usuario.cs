@@ -11,7 +11,8 @@ namespace MockupApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Web.Script.Serialization;
+
     public partial class Usuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,11 +26,12 @@ namespace MockupApp.Models
         public string apellidos { get; set; }
         public string correo { get; set; }
         public string contrasenia { get; set; }
-        public Nullable<System.DateTime> fechaRegistro { get; set; }
+        public System.DateTime fechaRegistro { get; set; }
         public int idRol { get; set; }
     
         public virtual Rol Rol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        
         public virtual ICollection<Venta> Venta { get; set; }
     }
 }

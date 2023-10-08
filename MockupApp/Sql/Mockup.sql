@@ -1,8 +1,8 @@
-/*create database mockup
+create database mockup
 go
 
 use mockup
-go*/
+go
 
 
 create table Rol(

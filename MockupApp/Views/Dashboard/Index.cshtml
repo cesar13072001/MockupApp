@@ -27,7 +27,7 @@
     <li class="breadcrumb-item active">Dashboard</li>
 </ol>
 
-@if (reporte != null)
+@if (reporte != null && sesion.idRol == 1)
 {
     <h3>Tu resumen:</h3>
     <br />

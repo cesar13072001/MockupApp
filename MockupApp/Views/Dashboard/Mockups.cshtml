@@ -26,7 +26,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form method="post" id="formularioMockup" enctype="multipart/form-data" action="javascript:formularioMockup()">
+            <form method="post" id="formularioMockup" enctype="multipart/form-data" action="javascript:formularioMockup()" autocomplete="off">
 
                 <div class="modal-body">
 
@@ -357,7 +357,8 @@
 
                 contentType: "application/json; charset=utf-8",
                   success: function (data) {
-                      producto= data;
+                      producto = data;
+                      console.log(producto);
                 },
                 error: function (error) {
                     console.log(error);
