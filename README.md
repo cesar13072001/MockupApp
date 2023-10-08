@@ -43,9 +43,13 @@ Para implementar este proyecto siga los siguientes pasos:
 
   8. Obtener las el Client ID y el Secret Key de la app.
 
-  9. Agregar las credenciales de la tienda al archivo Web.Config. 
+  9. Agregar las credenciales de la tienda al archivo Web.Config.
 
-  10. Obtenga las cuentas de prueba de Paypal developer en el siguiente link:
+  10. Cree una cuenta de azure para obtener  Blob Storage.
+
+  11. Agrege la cadenad e conexión de Blob Storage al archivo Web.Config.
+
+  13. Obtenga las cuentas de prueba de Paypal developer en el siguiente link:
 
 ```bash
   https://developer.paypal.com/dashboard/accounts
@@ -56,14 +60,14 @@ Para implementar este proyecto siga los siguientes pasos:
   @personal.example.com es para hacer pruebas de compras)
 
 
-  11. Logueese en la aplicación con los siguientes datos de administrador:
+  14. Logueese en la aplicación con los siguientes datos de administrador:
 
  - Correo: cesar@gmail.com
  - Password: 12345678
 
-  12. Agrege productos para hacer la prueba de compras.
+  15. Agrege productos para hacer la prueba de compras.
 
-  13. Cree una cuenta con el registro de usuario de la aplicación y 
+  16. Cree una cuenta con el registro de usuario de la aplicación y 
   realize una compra.
 
 ## 🛠 Herrmientas
@@ -80,8 +84,9 @@ Para implementar este proyecto siga los siguientes pasos:
 
 ## Demo
 Puede probar la aplicación en la siguiente dirección:
-https://github.com/cesar13072001/MockupApp/blob/main/MockupApp/Sql/Mockup.sql
-
+https://childstory.azurewebsites.net/
+ - Correo: cesar@gmail.com
+ - Password: 12345678
 
 # ¡Hola, soy Cesar Aguilar! 👋
 
@@ -93,7 +98,7 @@ Egresado técnico de la carrera de computación e informática en CIBERTEC. Me c
 
 
 ## 🔗 Links
-[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://www.linkedin.com/in/cesar13072001/)
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://cesar13072001.github.io/portafolio/)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/cesar13072001/)
 [![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/cesar13072001)
 
